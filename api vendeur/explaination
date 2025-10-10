@@ -1,0 +1,16 @@
+Micro service vendeur : Gere les actions d’un vendeur (Création de la boutique en ligne, CRUD des
+produits, avec une petite gestion)
+
+BD : MongoDB
+Table :
+    -Produit (id_vendeur, Nom du produit, prix, description, quantité, image, catégorie),
+    -Catégorie (nom catégorie),
+    -Boutique (Nom de la boutique, adresse, domaine, description)
+
+Méthodes :
+
+    -Un vendeur peut ajouter produit, le modifier ou le supprimer(archiver)
+    -Un vendeur peut voir le nombre de produit en ligne et le nombre de vente, il peut
+    aussi voir les commandes
+    -Un compte vendeur doit créer une boutique
+    -Un admin peut ajouter une nouvelle catégorie

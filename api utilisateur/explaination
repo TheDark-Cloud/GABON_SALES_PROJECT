@@ -1,0 +1,14 @@
+Micro service utilisateur : Gere la création des différents compte administrateur et vendeur (pour le
+moment)
+
+BD : PostgreSQL
+Table :
+    -Utilisateur (id_utilisateur, email, mot de passe, id rôle),
+    -Administrateur (id, id utilisateur, nom, prénom, numéro),
+    -Vendeur (id_vendeur, id utilisateur, nom, prénom, pièce d’identité, numéro),
+    -Client (id, id utilisateur, nom prénom, numéro),
+    -Rôle ou catégorie du compte (id, nom rôle)
+
+Méthodes :
+    -Création d’un compte
+    -CRUD du compte
