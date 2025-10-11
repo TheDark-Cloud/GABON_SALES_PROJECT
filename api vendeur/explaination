@@ -1,7 +1,8 @@
 Micro service vendeur : Gere les actions d’un vendeur (Création de la boutique en ligne, CRUD des
 produits, avec une petite gestion)
 
-BD : MongoDB
+framework: Flask
+BD : postgreSQL
 Table :
     -Produit (id_vendeur, Nom du produit, prix, description, quantité, image, catégorie),
     -Catégorie (nom catégorie),

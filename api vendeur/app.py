@@ -1,12 +1,8 @@
-from flask import Flask
+from config import app, create_app, create_tables
 
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
 
 
 if __name__ == '__main__':
+    app = create_app(app)
+    create_tables(app)
     app.run()

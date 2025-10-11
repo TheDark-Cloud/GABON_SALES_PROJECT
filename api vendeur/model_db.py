@@ -1,48 +1,52 @@
-from flask import SQLAlchemy
-from datetime import datetime
+# models.py (SQLAlchemy)
+from datetime import datetime, timezone
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class SerializerMixin:
-    def __init__(self):
-        self.__table__ = None
+class Vendeur(db.Model):
+    __tablename__ = "vendeur"
+    id_vendeur = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    mot_de_passe = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-    def to_dict(self):
-        result = {}
-        for column in self.__table__.columns:
-            column_name = column.name
-            column_value = getattr(self, column_name)
+class Boutique(db.Model):
+    __tablename__ = "boutique"
+    id_boutique = db.Column(db.Integer, primary_key=True)
+    id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
+    nom = db.Column(db.String(150), nullable=False)
+    adresse = db.Column(db.Text)
+    domaine = db.Column(db.String(150))
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-            # Handle datetime formatting
-            if hasattr(column.type, 'python_type') and column.type.python_type.__name__ == 'datetime':
-                if column_value:
-                    result[column_name] = column_value.isoformat()
-                else:
-                    result[column_name] = None
-            else:
-                result[column_name] = column_value
+class Categorie(db.Model):
+    __tablename__ = "categorie"
+    id_categorie = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(120), unique=True, nullable=False)
 
-        return result
-
-
-class Produit(db.Model, SerializerMixin):
-    __tablename__ = 'produit'
-
-    id_vendeur = db.Column(db.Interger, primary_key=True)
-    nom_produit = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    quantite = db.Column(db.Integer, nullable=False, default=0)
-    image = db.Column(db.BLOB, nullable=False)
-    categorie = db.Column(db.String(200), nullable=False)
-    category = db.Column(db.String, nullable=False)
+class Produit(db.Model):
+    __tablename__ = "produit"
+    id_produit = db.Column(db.Integer, primary_key=True)
+    id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
+    id_categorie = db.Column(db.Integer, db.ForeignKey('categorie.id_categorie'))
+    nom = db.Column(db.String(200), nullable=False)
+    prix = db.Column(db.Numeric(12,2), nullable=False)
+    description = db.Column(db.Text)
+    quantite = db.Column(db.Integer, default=0)
+    image = db.Column(db.Text)
+    est_archive = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-
-class Boutique(db.Model, SerializerMixin):
-    __tablename__ = 'boutique'
-
-    nom_boutique = db.Column(db.String, nullable=False)
-    adresse_boutique = db.column(db.String(200), nullable=False)
-    type_de_boutique = db.column(db.String(200), nullable=True)
-    description = db.Column(db.String(500))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+# class Commande(db.Model):
+#     __tablename__ = "commande"
+#     id_commande = db.Column(db.Integer, primary_key=True)
+#     id_produit = db.Column(db.Integer, db.ForeignKey('produit.id_produit'), nullable=False)
+#     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur'), nullable=False)
+#     quantite = db.Column(db.Integer, nullable=False)
+#     statut = db.Column(db.String(50), default='en_attente')
+#     total = db.Column(db.Numeric(12,2), nullable=False)
+#     date_commande = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
