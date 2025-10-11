@@ -1,20 +1,21 @@
 from flask import Flask
-from extension import db
+from extension import db, JWT_SECRET_KEY, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
 from routes.utilisateur import utilisateur_bp
 from routes.vendeur import vendeur_bp
 from routes.log_in import log_in_bp
-import os
+from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
 migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Admin@localhost:5433/api_utilisateur_db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'cVUGtw10B_PRv2jaCS1IUbzxnucRIJ79fMQ4dGhUEUw'  #os.environ.get('SECRET_KEY')
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+    app.config['SECRET_KEY'] = JWT_SECRET_KEY
 
     db.init_app(app)
+    jwt = JWTManager(app)
     migrate.init_app(app, db)
     app.register_blueprint(utilisateur_bp, url_prefix='/utilisateur')
     app.register_blueprint(vendeur_bp, url_prefix='/vendeur')

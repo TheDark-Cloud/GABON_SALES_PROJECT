@@ -1,7 +1,14 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from model_db import Utilisateur, Role
+import extension
+from model_db import Utilisateur
 from extension import db
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity
+)
+
 
 utilisateur_bp = Blueprint('utilisateur', __name__)
 
@@ -15,19 +22,15 @@ def create_user():
 
     email = data.get('email')
     hsh_password = generate_password_hash(data.get('password'))
-    nom_role = data.get('nom_role')
+    id_role = data.get('role_id')
 
-    if not all([email, hsh_password, nom_role]):
+    if not all([email, hsh_password, id_role]):
         return jsonify({"error":"email, mot_de_passe, role requis."}), 400
 
     # checking if the email is already in the database
     if Utilisateur.query.filter_by(email=email).first():
         return jsonify({'error':"L'addresse email existe deja"}), 409
 
-    role= Role.query.filter_by(nom_role=data['nom_role']).first():
-    if not role:
-        return role.id_role
-    id_role = role.id
     # sending the data in the database
     try:
         user = Utilisateur(email=email,
@@ -39,14 +42,18 @@ def create_user():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error":str(e)}), 500
-    return jsonify({'message':'Compte cree avec succes',
-                    'id_utilisateur': user.id,
-                    'email': user.email,}), 201
+
+    # JWT tokenization
+    jwt_token = create_access_token(identity=user.id_utilisateur,
+                                           additional_claims={"id_role": id_role, 'email': email, "scope": "onboarding"},
+                                            expires_delta=extension.ONBOARDING_EXPIRES)
+
+    return jsonify({'message':'Compte cree avec succes','token': jwt_token}), 201
 
 # Lire un utilisateur
-@utilisateur_bp.route('/utilisateur/<int:id>', methods=["GET"])
-def get_user(id):
-    user = Utilisateur.query.get_or_404(id)
+@utilisateur_bp.route('/utilisateur/<string:email>', methods=["GET"])
+def get_user(email):
+    user = Utilisateur.query.get_or_404(email)
     if not user:
         return jsonify({'message':'Le utilisateur non existant.'}), 404
     return jsonify({'user': user.id,
