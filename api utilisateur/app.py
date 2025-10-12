@@ -1,7 +1,9 @@
 from flask import Flask
 from extension import db, JWT_SECRET_KEY, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
+from routes.role import role_bp
 from routes.utilisateur import utilisateur_bp
-from routes.vendeur import vendeur_bp
+from routes.comple_compte import comple_compte_bp
+from routes.role import role_bp
 from routes.log_in import log_in_bp
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -18,7 +20,8 @@ def create_app():
     jwt = JWTManager(app)
     migrate.init_app(app, db)
     app.register_blueprint(utilisateur_bp, url_prefix='/utilisateur')
-    app.register_blueprint(vendeur_bp, url_prefix='/vendeur')
+    app.register_blueprint(comple_compte_bp, url_prefix='/comple_compte')
+    app.register_blueprint(role_bp, url_prefix='/role')
     app.register_blueprint(log_in_bp, url_prefix = '/log_in')
 
     return app

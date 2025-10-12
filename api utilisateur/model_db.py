@@ -1,7 +1,3 @@
-import email
-
-from sqlalchemy.util import non_memoized_property
-
 from extension import db
 from datetime import datetime, timezone
 import re
@@ -51,13 +47,6 @@ class Utilisateur(db.Model):
         self.email = email.strip().lower()
         self.password = password
         self.id_role = id_role
-
-    def serialize(self):
-        return {
-            id: self.id,
-            email: self.email,
-        }
-
 
 
 class Administrateur(db.Model):
