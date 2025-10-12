@@ -21,7 +21,7 @@ def create_app():
     migrate.init_app(app, db)
     app.register_blueprint(utilisateur_bp, url_prefix='/utilisateur')
     app.register_blueprint(comple_compte_bp, url_prefix='/comple_compte')
-    app.register_blueprint(role_bp, url_prefix='/role')
+    app.register_blueprint(role_bp)
     app.register_blueprint(log_in_bp, url_prefix = '/log_in')
 
     return app

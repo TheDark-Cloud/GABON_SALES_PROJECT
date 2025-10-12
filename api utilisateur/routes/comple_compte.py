@@ -17,7 +17,7 @@ def create_vendeur(id):
     if caller_id != id:
         return jsonify({"error":"Token UID mismatch "}), 403
 
-    id_role = claims.get('id_role')
+    id_role = claims.get('id')
 
     data = request.get_json() or {}
     nom = data.get('nom')

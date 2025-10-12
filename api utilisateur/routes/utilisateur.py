@@ -57,7 +57,7 @@ def get_user(id):
                     'id_role':user.id_role}), 200
 
 # Mettre a jour un utilisateur
-@utilisateur_bp.route('/utilisateur/<int:id>', methods=["PUT"])
+@utilisateur_bp.route('/utilisateur/mise-a-jour/<int:id>', methods=["PUT"])
 def update_user(id):
     user = Utilisateur.query.get_or_404(id)
     data = request.get_json() or {}
@@ -76,7 +76,7 @@ def update_user(id):
         return jsonify({'message':'Veuille saisir vos informations.'}), 404
     return jsonify({'message': 'Compte mis à jour'}), 200
 
-@utilisateur_bp.route('/utilisateur/<int:id>', methods=["DELETE"])
+@utilisateur_bp.route('/utilisateur/delete/<int:id>', methods=["DELETE"])
 def delete_user(id):
     user = Utilisateur.query.get_or_404(id)
     if not user:

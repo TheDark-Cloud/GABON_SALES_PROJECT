@@ -33,9 +33,11 @@ class Utilisateur(db.Model):
     id_role = db.Column(db.Integer, db.ForeignKey('role.id_role'), nullable=False)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-    administrateur = db.relationship('Administrateur', backref='utilisateur', uselist=False)
-    vendeur = db.relationship('Vendeur', backref='utilisateur', uselist=False)
-    client = db.relationship('Client', backref='utilisateur', uselist=False)
+    # Relation
+    role = db.relationship('Role', back_populates='utilisateur', lazy='joined')
+    administrateur = db.relationship('Administrateur', back_populates='utilisateur', uselist=False)
+    vendeur = db.relationship('Vendeur', back_populates='utilisateur', uselist=False)
+    client = db.relationship('Client', back_populates='utilisateur', uselist=False)
 
     def __init__(self, email, password, id_role):
         super().__init__()
@@ -62,7 +64,7 @@ class Administrateur(db.Model):
         super().__init__()
         self.nom = nom
 
-
+    utilisateur = db.relationship('Utilisateur', back_populates='administrateur', uselist=False)
 
 class Vendeur(db.Model, SerializerMixin):
     __tablename__ = 'vendeur'
@@ -84,7 +86,7 @@ class Vendeur(db.Model, SerializerMixin):
         self.numero = numero
         self.identite = identite
 
-
+    utilisateur = db.relationship('Utilisateur', back_populates='vendeur', uselist=False)
 
 
 class Client(db.Model, SerializerMixin):
@@ -104,17 +106,21 @@ class Client(db.Model, SerializerMixin):
         self.prenom = prenom
         check_numero(numero)
         self.numero = numero
-
+    utilisateur = db.relationship('Utilisateur', back_populates='client', uselist=False)
 
 class Role(db.Model):
     __tablename__ = 'role'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nom_role = db.Column(db.String(100), nullable=False)
+    id_role= db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nom_role = db.Column(db.String(100), unique=True, nullable=False)
 
-    utilisateurs = db.relationship('Utilisateur', backref='role', lazy=True)
-    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
-
+    utilisateur = db.relationship('Utilisateur', back_populates='role', lazy=True)
+    #created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+    def to_dict(self):
+        return {
+            'id':self.id_role,
+            'nom_role':self.nom_role,
+        }
 
 # verification du numero
 def check_numero(numero):

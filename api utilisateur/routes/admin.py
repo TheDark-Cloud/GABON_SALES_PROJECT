@@ -14,6 +14,26 @@ def admin_required(fn):
     wrapper.__name__ = fn.__name__
     return wrapper
 
+
+@admin_bp.route('/admin/vendeurs/block/<int:id>', methods=['PUT'])
+@jwt_required()
+@admin_required
+def block_vendeur(id):
+    vendeur = Vendeur.query.get(id)
+    if not vendeur:
+        return jsonify({'error': 'Vendeur introuvable'}), 404
+
+    # Suppose le champ s'appelle 'status' et est booléen
+    vendeur.status = False
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Erreur base de données', 'detail': str(e)}), 500
+
+    return jsonify({'message': 'Vendeur bloqué', 'id': id}), 200
+
+
 @admin_bp.route('/admin/users', methods=['GET'])
 @jwt_required()
 @admin_required
@@ -27,13 +47,3 @@ def list_users():
 def list_vendeurs():
     vendeurs = Vendeur.query.all()
     return jsonify([vendeur._to_dict() for vendeur in vendeurs]), 200
-
-@admin_bp.route('/admin/vendeurs/block/<int:id>', methods=['PUT'])
-@jwt_required()
-@admin_required
-def block_vendeur(id):
-    vendeurs = Vendeur.query.all()
-    for vendeur in vendeurs:
-        if vendeur.id == id:
-            vendeur.status = False
-            db.session.commit()
