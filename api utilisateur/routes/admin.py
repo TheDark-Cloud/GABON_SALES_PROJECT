@@ -8,7 +8,7 @@ admin_bp = Blueprint('admin', __name__)
 def admin_required(fn):
     def wrapper(*args, **kwargs):
         claims = get_jwt()
-        if claims.get('is_admin') is not True:
+        if claims.get('Ad') is not True:
             return jsonify({'error': 'Admin only'}), 403
         return fn(*args, **kwargs)
     wrapper.__name__ = fn.__name__
@@ -19,11 +19,21 @@ def admin_required(fn):
 @admin_required
 def list_users():
     users = Utilisateur.query.all()
-    return jsonify([u.serialize() for u in users]), 200
+    return jsonify([user._to_dict() for user in users]), 200
 
 @admin_bp.route('/admin/vendeurs', methods=['GET'])
 @jwt_required()
 @admin_required
 def list_vendeurs():
     vendeurs = Vendeur.query.all()
-    return jsonify([v.serialize() for v in vendeurs]), 200
+    return jsonify([vendeur._to_dict() for vendeur in vendeurs]), 200
+
+@admin_bp.route('/admin/vendeurs/block/<int:id>', methods=['PUT'])
+@jwt_required()
+@admin_required
+def block_vendeur(id):
+    vendeurs = Vendeur.query.all()
+    for vendeur in vendeurs:
+        if vendeur.id == id:
+            vendeur.status = False
+            db.session.commit()

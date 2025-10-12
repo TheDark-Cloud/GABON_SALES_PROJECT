@@ -6,27 +6,27 @@ from extension import db
 from datetime import datetime, timezone
 import re
 
-# class SerializerMixin:
-#     __abstract__ = True
-#     def __init__(self):
-#         self.__table__ = None
-#
-#     def to_dict(self):
-#         result = {}
-#         for column in self.__table__.columns:
-#             column_name = column.name
-#             column_value = getattr(self, column_name)
-#
-#             # Handle datetime formatting
-#             if hasattr(column.type, 'python_type') and column.type.python_type.__name__ == 'datetime':
-#                 if column_value:
-#                     result[column_name] = column_value.isoformat()
-#                 else:
-#                     result[column_name] = None
-#             else:
-#                 result[column_name] = column_value
-#
-#         return result
+class SerializerMixin:
+    __abstract__ = True
+    def __init__(self):
+        self.__table__ = None
+
+    def _to_dict(self):
+        result = {}
+        for column in self.__table__.columns:
+            column_name = column.name
+            column_value = getattr(self, column_name)
+
+            # Handle datetime formatting
+            if hasattr(column.type, 'python_type') and column.type.python_type.__name__ == 'datetime':
+                if column_value:
+                    result[column_name] = column_value.isoformat()
+                else:
+                    result[column_name] = None
+            else:
+                result[column_name] = column_value
+
+        return result
 
 class Utilisateur(db.Model):
     __tablename__ = 'utilisateur'
@@ -73,14 +73,9 @@ class Administrateur(db.Model):
         super().__init__()
         self.nom = nom
 
-    def serialize(self):
-        return {
-            'self.nom' = nom
-
-        }
 
 
-class Vendeur(db.Model):
+class Vendeur(db.Model, SerializerMixin):
     __tablename__ = 'vendeur'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -103,7 +98,7 @@ class Vendeur(db.Model):
 
 
 
-class Client(db.Model):
+class Client(db.Model, SerializerMixin):
     __tablename__ = 'client'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -113,6 +108,13 @@ class Client(db.Model):
     numero = db.Column(db.String(100), unique=True, nullable=False)
     statut = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+
+    def __init__(self, nom, prenom, numero):
+        super().__init__()
+        self.nom = nom
+        self.prenom = prenom
+        check_numero(numero)
+        self.numero = numero
 
 
 class Role(db.Model):
