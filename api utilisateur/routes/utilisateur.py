@@ -3,12 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import extension
 from model_db import Utilisateur
 from extension import db
-from flask_jwt_extended import (
-    create_access_token,
-    jwt_required,
-    get_jwt_identity
-)
-
+from flask_jwt_extended import create_access_token
 
 utilisateur_bp = Blueprint('utilisateur', __name__)
 
@@ -44,21 +39,22 @@ def create_user():
         return jsonify({"error":str(e)}), 500
 
     # JWT tokenization
-    jwt_token = create_access_token(identity=user.id_utilisateur,
-                                           additional_claims={"id_role": id_role, 'email': email, "scope": "onboarding"},
-                                            expires_delta=extension.ONBOARDING_EXPIRES)
+    jwt_token = create_access_token(identity=user.id,
+                                    additional_claims={"id_role": id_role, 'email': email, "scope": "onboarding"},
+                                    expires_delta=extension.ONBOARDING_EXPIRES)
 
     return jsonify({'message':'Compte cree avec succes','token': jwt_token}), 201
 
 # Lire un utilisateur
-@utilisateur_bp.route('/utilisateur/<string:email>', methods=["GET"])
-def get_user(email):
-    user = Utilisateur.query.get_or_404(email)
+@utilisateur_bp.route('/utilisateur/<int:id>', methods=["GET"])
+def get_user(id):
+    user = Utilisateur.query.get_or_404(id)
     if not user:
-        return jsonify({'message':'Le utilisateur non existant.'}), 404
+        return jsonify({'message':'Aucun comtpe n\'est associee a ce mail.'}), 404
     return jsonify({'user': user.id,
-                    'email':user.emai,
-                    'nom_role':user.nom_role}), 200
+                    'email':user.email,
+                    'password':user.password,
+                    'id_role':user.id_role}), 200
 
 # Mettre a jour un utilisateur
 @utilisateur_bp.route('/utilisateur/<int:id>', methods=["PUT"])
@@ -66,17 +62,28 @@ def update_user(id):
     user = Utilisateur.query.get_or_404(id)
     data = request.get_json() or {}
 
-    if 'email' in data and 'password' in data:
+
+    if 'email' in data:
         user.email = data['email']
+        db.session.commit()
+
+    elif 'password' in data:
         user.password = generate_password_hash(data['password'])
+        db.session.commit()
+
     else:
-        return jsonify({'message':'Le utilisateur non existant.'}), 404
+        db.session.rollback()
+        return jsonify({'message':'Veuille saisir vos informations.'}), 404
+    return jsonify({'message': 'Compte mis à jour'}), 200
 
-
-
-@utilisateur_bp.route('/utilisateur/modifier-mot-de-passe', methods=["GET"])
-def modifier_mot_de_passe():
-    """Modifier de l'utilisateur"""
-    pass
-
+@utilisateur_bp.route('/utilisateur/<int:id>', methods=["DELETE"])
+def delete_user(id):
+    user = Utilisateur.query.get_or_404(id)
+    if not user:
+        db.session.rollback()
+        return jsonify({'Error': 'Compte introuvable'}), 404
+    else:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'Compte efface avec succes.'}), 200
 

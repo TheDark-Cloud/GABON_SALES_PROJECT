@@ -1,3 +1,7 @@
+import email
+
+from sqlalchemy.util import non_memoized_property
+
 from extension import db
 from datetime import datetime, timezone
 import re
@@ -48,6 +52,12 @@ class Utilisateur(db.Model):
         self.password = password
         self.id_role = id_role
 
+    def serialize(self):
+        return {
+            id: self.id,
+            email: self.email,
+        }
+
 
 
 class Administrateur(db.Model):
@@ -63,6 +73,12 @@ class Administrateur(db.Model):
         super().__init__()
         self.nom = nom
 
+    def serialize(self):
+        return {
+            'self.nom' = nom
+
+        }
+
 
 class Vendeur(db.Model):
     __tablename__ = 'vendeur'
@@ -71,16 +87,20 @@ class Vendeur(db.Model):
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
     nom = db.Column(db.String(200), nullable=False)
     prenom = db.Column(db.String(200), nullable=False)
-    numero = db.Column(db.String(100), nullable=False)
+    numero = db.Column(db.String(100), unique=True, nullable=False)
+    identite = db.Column(db.String(200), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
     statut = db.Column(db.Boolean, default=True)
 
-    def __init__(self, nom, prenom, numero):
+    def __init__(self, nom, prenom, numero, identite):
         super().__init__()
         self.nom = nom
         self.prenom = prenom
         check_numero(numero)
         self.numero = numero
+        self.identite = identite
+
+
 
 
 class Client(db.Model):
@@ -90,7 +110,7 @@ class Client(db.Model):
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
     nom = db.Column(db.String(200), nullable=False)
     prenom = db.Column(db.String(200), nullable=False)
-    numero = db.Column(db.String(100), nullable=False)
+    numero = db.Column(db.String(100), unique=True, nullable=False)
     statut = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
