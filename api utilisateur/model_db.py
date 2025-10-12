@@ -6,7 +6,7 @@ import re
 class Utilisateur(db.Model):
     __tablename__ = 'utilisateur'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_utilisateur = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     id_role = db.Column(db.Integer, db.ForeignKey('role.id_role'), nullable=False)
@@ -29,12 +29,20 @@ class Utilisateur(db.Model):
         self.password = password
         self.id_role = id_role
 
+    def to_dict(self):
+        return {
+            'id':self.id_utilisateur,
+            'email':self.email,
+            'password':self.password,
+            'id_role':self.id_role
+        }
+
 
 class Administrateur(db.Model):
     __tablename__ = 'administrateur'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur'), nullable=False)
     nom = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
     statut = db.Column(db.Boolean, default=True)
@@ -45,11 +53,17 @@ class Administrateur(db.Model):
 
     utilisateur = db.relationship('Utilisateur', back_populates='administrateur', uselist=False)
 
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'nom':self.nom
+        }
+
 class Vendeur(db.Model):
     __tablename__ = 'vendeur'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur'), nullable=False)
     nom = db.Column(db.String(200), nullable=False)
     prenom = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.String(100), unique=True, nullable=False)
@@ -57,13 +71,14 @@ class Vendeur(db.Model):
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
     statut = db.Column(db.Boolean, default=True)
 
-    def __init__(self, nom, prenom, numero, identite):
+    def __init__(self, nom, prenom, numero, identite, id_utilisateur):
         super().__init__()
         self.nom = nom
         self.prenom = prenom
         check_numero(numero)
         self.numero = numero
         self.identite = identite
+        self.id_utilisateur = id_utilisateur
 
     utilisateur = db.relationship('Utilisateur', back_populates='vendeur', uselist=False)
 
@@ -72,19 +87,21 @@ class Client(db.Model):
     __tablename__ = 'client'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur'), nullable=False)
     nom = db.Column(db.String(200), nullable=False)
     prenom = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.String(100), unique=True, nullable=False)
     statut = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-    def __init__(self, nom, prenom, numero):
+    def __init__(self, nom, prenom, numero, id_utilisateur):
         super().__init__()
         self.nom = nom
         self.prenom = prenom
         check_numero(numero)
         self.numero = numero
+        self.id_utilisateur = id_utilisateur
+
     utilisateur = db.relationship('Utilisateur', back_populates='client', uselist=False)
 
     def to_dict(self):
@@ -97,7 +114,7 @@ class Role(db.Model):
     nom_role = db.Column(db.String(100), unique=True, nullable=False)
 
     utilisateur = db.relationship('Utilisateur', back_populates='role', lazy=True)
-    #created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
     def to_dict(self):
         return {
             'id':self.id_role,
