@@ -1,5 +1,5 @@
 from flask import Flask
-from extension import db, JWT_SECRET_KEY, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
+from extension import db, JWT_SECRET_KEY, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, JWT_ALGORITHM
 from blueprints.role import role_bp
 from blueprints.utilisateur import utilisateur_bp
 from blueprints.complete_compte import complete_compte_bp
@@ -15,6 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
     app.config['SECRET_KEY'] = JWT_SECRET_KEY
+    app.config["JWT_ALGORITHM"] = JWT_ALGORITHM
 
     db.init_app(app)
     jwt = JWTManager(app)

@@ -42,12 +42,8 @@ def create_user():
     payload = {
         "id_utilisateur": user.id_utilisateur,
         "id_role": user.id_role,
-        "email": user.email
     }
-    # JWT tokenization
-    # jwt_token = create_access_token(identity=user.id_utilisateur,
-    #                                 additional_claims={"id_role": id_role, 'email': email, "scope": "onboarding"},
-    #                                 expires_delta=extension.ONBOARDING_EXPIRES)
+
     jwt_token = create_access_token(identity=json.dumps(payload))
     reponse = {
         "access_token": jwt_token,

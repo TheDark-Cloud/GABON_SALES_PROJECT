@@ -11,21 +11,32 @@ complete_compte_bp = Blueprint('complete_compte', __name__)
 @complete_compte_bp.route('/complete_compte', methods=['POST'])
 @jwt_required()
 def create_vendeur():
-    eb = request.headers.get('Authorization')
-    print(eb)
-    """Cpompleting either Vendeur or Client account"""
+    # eb = request.headers.get('Authorization')
+    # print(eb)
+    # """Cpompleting either Vendeur or Client account"""
+    # try:
+    #
+    #
+    #     verify_jwt_in_request()
+    #     caller_id = get_jwt_identity()
+    #     user = json.loads(caller_id)
+    #     if user.get("id_role")!= 2:
+    #         print(" 403")
+    #
+    #     id_utlisateur = user.get("id_utlisateur")
+    #
+    # except jwt.JWTError as e:
+    #     print(e)
+    # id_role = user.get("id_role")
+
     try:
-        verify_jwt_in_request()
-        caller_id = get_jwt_identity()
-        user = json.loads(caller_id)
-        if user.get("id_role")!= 2:
-            print(" 403")
+        token_header = verify_jwt_in_request()
+        identity_json = get_jwt_identity()
+        user = json.loads(identity_json)
 
-        id_utlisateur = user.get("id_utlisateur")
+        id_utilisateur = user['id_utilisateur']
+        id_role = user['id_role']
 
-    except jwt.JWTError as e:
-        print(e)
-    id_role = user.get("id_role")
     match id_role:
         case '2': # for vendor
             try:
@@ -34,7 +45,7 @@ def create_vendeur():
                 prenom = data.get('prenom')
                 numero = data.get('numero')
                 identite = data.get('identite')
-                id_utilisateur = caller_id
+                id_utilisateur = user['id_utilisateur']
 
                 new_vendeur = Vendeur(nom=nom, prenom=prenom, numero=numero, identite=identite, id_utilisateur=id_utilisateur)
                 db.session.add(new_vendeur)
