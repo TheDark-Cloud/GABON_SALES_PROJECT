@@ -2,27 +2,6 @@ from extension import db
 from datetime import datetime, timezone
 import re
 
-class SerializerMixin:
-    __abstract__ = True
-    def __init__(self):
-        self.__table__ = None
-
-    def _to_dict(self):
-        result = {}
-        for column in self.__table__.columns:
-            column_name = column.name
-            column_value = getattr(self, column_name)
-
-            # Handle datetime formatting
-            if hasattr(column.type, 'python_type') and column.type.python_type.__name__ == 'datetime':
-                if column_value:
-                    result[column_name] = column_value.isoformat()
-                else:
-                    result[column_name] = None
-            else:
-                result[column_name] = column_value
-
-        return result
 
 class Utilisateur(db.Model):
     __tablename__ = 'utilisateur'
@@ -66,7 +45,7 @@ class Administrateur(db.Model):
 
     utilisateur = db.relationship('Utilisateur', back_populates='administrateur', uselist=False)
 
-class Vendeur(db.Model, SerializerMixin):
+class Vendeur(db.Model):
     __tablename__ = 'vendeur'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -89,7 +68,7 @@ class Vendeur(db.Model, SerializerMixin):
     utilisateur = db.relationship('Utilisateur', back_populates='vendeur', uselist=False)
 
 
-class Client(db.Model, SerializerMixin):
+class Client(db.Model):
     __tablename__ = 'client'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -107,6 +86,9 @@ class Client(db.Model, SerializerMixin):
         check_numero(numero)
         self.numero = numero
     utilisateur = db.relationship('Utilisateur', back_populates='client', uselist=False)
+
+    def to_dict(self):
+        return
 
 class Role(db.Model):
     __tablename__ = 'role'

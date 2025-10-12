@@ -17,7 +17,7 @@ def create_user():
 
     email = data.get('email')
     hsh_password = generate_password_hash(data.get('password'))
-    id_role = data.get('role_id')
+    id_role = data.get('id_role')
 
     if not all([email, hsh_password, id_role]):
         return jsonify({"error":"email, mot_de_passe, role requis."}), 400
