@@ -1,73 +1,129 @@
-import json
 
-import jwt
-from flask import Blueprint, jsonify, request
-from model_db import Vendeur, Client
-from extension import db
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
+from flask import Blueprint, request, jsonify, current_app
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from extension import db, decode_token
+from model_db import Vendeur, Client, Utilisateur
 
-complete_compte_bp = Blueprint('complete_compte', __name__)
+complete_compte_bp = Blueprint("complete_compte", __name__)
 
-@complete_compte_bp.route('/complete_compte', methods=['POST'])
-@jwt_required()
-def create_vendeur():
-    # eb = request.headers.get('Authorization')
-    # print(eb)
-    # """Cpompleting either Vendeur or Client account"""
-    # try:
-    #
-    #
-    #     verify_jwt_in_request()
-    #     caller_id = get_jwt_identity()
-    #     user = json.loads(caller_id)
-    #     if user.get("id_role")!= 2:
-    #         print(" 403")
-    #
-    #     id_utlisateur = user.get("id_utlisateur")
-    #
-    # except jwt.JWTError as e:
-    #     print(e)
-    # id_role = user.get("id_role")
+def _validate_payload(payload, required):
+    missing = [p for p in required if not payload.get(p)]
+    if missing:
+        return False, f"Missing required fields: {', '.join(missing)}"
+    return True, None
 
+@complete_compte_bp.route("/user/account/vendeur_client/complete/<string:token>", methods=["POST"])
+def create_compte(token):
+    # decoding the token for verification
+    print(type(token))
+    payload = decode_token(token)
+    print(payload)
+    id_utilisateur = payload.get("id_utilisateur")
+    id_role = payload.get("id_role")
+
+    # identity = get_jwt_identity()
+    # if not isinstance(identity, dict):
+    #     current_app.logger.error("Invalid token identity type")
+    #     return jsonify({"error": {"message": "Invalid token identity"}}), 400
+    #
+    # id_utilisateur = identity.get("id_utilisateur")
+    # id_role = identity.get("id_role")
+
+    # checking if the is present in the database
+    user = Utilisateur.query.get(id_utilisateur)
+    if not user:
+        return jsonify({"error": {"message": "Utilisateur introuvable"}}), 404
+
+    # checking the id_role present in the token to perform account completion accordingly
+    if user.id_role != id_role:
+        return jsonify({"error": {"message": "Role mismatch"}}), 403
+    data = request.get_json(silent=True) or {}
+    if id_role == 2:
+
+        # valdating the elements of the payload
+        ok, err = _validate_payload(data, ["nom", "prenom", "numero", "identite"])
+        if not ok:
+            return jsonify({"error": {"message": err}}), 400
+        new_vendeur = Vendeur(nom=data["nom"].strip(), prenom=data["prenom"].strip(),
+                              numero=data["numero"].strip(), identite=data["identite"].strip(),
+                              id_utilisateur=id_utilisateur)
+        # adding in the database
+        db.session.add(new_vendeur)
+
+    elif id_role == 3:
+        ok, err = _validate_payload(data, ["nom", "prenom", "numero"])
+        if not ok:
+            return jsonify({"error": {"message": err}}), 400
+        new_client = Client(nom=data["nom"].strip(), prenom=data["prenom"].strip(),
+                            numero=data["numero"].strip(), id_utilisateur=id_utilisateur)
+        db.session.add(new_client)
+    else:
+        return jsonify({"error": {"message": "Role non autorisé"}}), 403
     try:
-        token_header = verify_jwt_in_request()
-        identity_json = get_jwt_identity()
-        user = json.loads(identity_json)
+        db.session.commit()
+    except IntegrityError as ie:
+        db.session.rollback()
+        current_app.logger.warning("IntegrityError in complete_compte: %s", ie)
+        return jsonify({"error": {"message": "Conflit de données (valeurs uniques)"}}), 409
+    except SQLAlchemyError:
+        db.session.rollback()
+        current_app.logger.exception("DB error in complete_compte")
+        return jsonify({"error": {"message": "Internal server error"}}), 500
+    return jsonify({"data": {"message": "Votre compte a été complété avec succès"}}), 201
 
-        id_utilisateur = user['id_utilisateur']
-        id_role = user['id_role']
 
-    match id_role:
-        case '2': # for vendor
-            try:
-                data = request.get_json() or {}
-                nom = data.get('nom')
-                prenom = data.get('prenom')
-                numero = data.get('numero')
-                identite = data.get('identite')
-                id_utilisateur = user['id_utilisateur']
 
-                new_vendeur = Vendeur(nom=nom, prenom=prenom, numero=numero, identite=identite, id_utilisateur=id_utilisateur)
-                db.session.add(new_vendeur)
-                db.session.commit()
-                return jsonify({'message':'Votre compte vendeur a ete complete avec succes'}), 201
-            except Exception as e:
-                db.session.rollback()
-                return jsonify({'error': str(e)}), 403
 
-        case '3': # for client
-            try:
-                data = request.get_json() or {}
-                nom = data.get('nom')
-                prenom = data.get('prenom')
-                numero = data.get('numero')
-                id_utilisateur = caller_id
 
-                new_client = Client(nom=nom, prenom=prenom, numero=numero, id_utilisateur=id_utilisateur)
-                db.session.add(new_client)
-                db.session.commit()
-                return jsonify({'message': 'Votre compte client a ete complete avec succes'}), 201
-            except Exception as e:
-                db.session.rollback()
-                return jsonify({'error':str(e)}), 403
 
+
+
+# import json
+# from flask import Blueprint, jsonify, request
+# from model_db import Vendeur, Client
+# from extension import db
+# from flask_jwt_extended import jwt_required, get_jwt_identity
+#
+# complete_compte_bp = Blueprint('complete_compte', __name__)
+#
+# @complete_compte_bp.route('/complete_compte', methods=['POST'])
+# @jwt_required()
+# def create_compte():
+#     try:
+#         identity_json = get_jwt_identity()
+#         user = json.loads(identity_json)
+#
+#         id_utilisateur = user.get('id_utilisateur')
+#         id_role = user.get('id_role')
+#         print(id_utilisateur, id_role)
+#
+#         data = request.get_json() or {}
+#         nom = data.get('nom')
+#         prenom = data.get('prenom')
+#         numero = data.get('numero')
+#
+#         if id_role == '2':  # Vendor
+#             identite = data.get('identite')
+#             if not all([nom, prenom, numero, identite]):
+#                 return jsonify({'error': 'Missing required fields'}), 400
+#
+#             new_vendeur = Vendeur(nom=nom, prenom=prenom, numero=numero, identite=identite, id_utilisateur=id_utilisateur)
+#             db.session.add(new_vendeur)
+#
+#         elif id_role == '3':  # Client
+#             if not all([nom, prenom, numero]):
+#                 return jsonify({'error': 'Missing required fields'}), 400
+#
+#             new_client = Client(nom=nom, prenom=prenom, numero=numero, id_utilisateur=id_utilisateur)
+#             db.session.add(new_client)
+#
+#         else:
+#             return jsonify({'error': 'Role non autorisé'}), 403
+#
+#         db.session.commit()
+#         return jsonify({'message': 'Votre compte a été complété avec succès'}), 201
+#
+#     except Exception as e:
+#         db.session.rollback()
+#         return jsonify({'error': str(e)}), 403

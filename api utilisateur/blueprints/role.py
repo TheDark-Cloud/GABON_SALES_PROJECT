@@ -1,17 +1,15 @@
-from flask import Blueprint, jsonify
-
+from flask import Blueprint, jsonify, current_app
+from sqlalchemy.exc import SQLAlchemyError
 from extension import db
 from model_db import Role
 
+role_bp = Blueprint("role", __name__, url_prefix="/roles")
 
-role_bp = Blueprint('role', __name__)
-
-# pour l'inscription utilisateur
-@role_bp.route('/role', methods=['GET'])
-def get_role():
+@role_bp.route("", methods=["GET"])
+def get_roles():
     try:
-        roles = db.session.query(Role).filter(Role.id != 1).all()
-        print(roles)
-        return jsonify([role.to_dict() for role in roles])
-    except Exception as e:
-        print(e)
+        roles = db.session.query(Role).filter(Role.id_role != 1).all()
+        return jsonify({"data": [r.to_dict() for r in roles]}), 200
+    except SQLAlchemyError:
+        current_app.logger.exception("Failed to fetch roles")
+        return jsonify({"error": {"message": "Internal server error"}}), 500

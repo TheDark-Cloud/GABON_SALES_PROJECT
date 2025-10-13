@@ -1,14 +1,34 @@
+"""Shared extensions used by the Flask application."""
 from flask_sqlalchemy import SQLAlchemy
-import os
-from datetime import timedelta
-
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "cVUGtw10B_PRv2jaCS1IUbzxnucRIJ79fMQ4dGhUEUw")
-SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "postgresql://postgres:Admin@localhost:5433/api_utilisateur_db")
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-JWT_ALGORITHM = "HS256"
+db: SQLAlchemy = SQLAlchemy()
 
 
+import jwt
+from datetime import datetime, timedelta
+from flask import current_app
 
-db = SQLAlchemy()
+def generate_token(identity):
+    info = {
+        "sub": str(identity.id_utilisateur),              # Subject of the token
+        "id": identity.id_utilisateur,               # Explicit ID claim
+        "iat": datetime.utcnow(),                # Issued at
+        "exp": datetime.utcnow() + timedelta(days=365*80)  # Expiration
+    }
 
+    payload = {**info, **identity}
 
+    token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+    return token
+
+def decode_token(token):
+    try:
+        payload = jwt.decode(
+            token,
+            current_app.config["SECRET_KEY"],
+            algorithms=["HS256"]
+        )
+        return payload  # This will be a dict with your claims
+    except jwt.ExpiredSignatureError:
+        return {"error": "Token has expired"}
+    except jwt.InvalidTokenError:
+        return {"error": "Invalid token"}
