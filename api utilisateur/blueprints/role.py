@@ -3,9 +3,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from extension import db
 from model_db import Role
 
-role_bp = Blueprint("role", __name__, url_prefix="/roles")
+role_bp = Blueprint("role", __name__)
 
-@role_bp.route("", methods=["GET"])
+@role_bp.route("/roles", methods=["GET"])   #ok
 def get_roles():
     try:
         roles = db.session.query(Role).filter(Role.id_role != 1).all()
