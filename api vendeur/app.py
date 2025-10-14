@@ -1,6 +1,9 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+
+from blueprints.crud_categorie.add_categorie import add_categorie_bp
+from blueprints.crud_categorie.get_categorie import get_categorie_bp
 from setting.config import db
 from flask_migrate import Migrate
 
@@ -22,17 +25,31 @@ def create_app():
     db.init_app(app)
     db_migrate.init_app(app, db)
 
-    # registering all the routes
+    # registering all the routes----------------------------------------------------------------------------------------
+    app.register_blueprint(get_categorie_bp)
+    app.register_blueprint(add_categorie_bp)
+
+
+
+
+
+
+
+
+
+
+
 
     return app
 
 
 
 if __name__ == '__main__':
+    app = create_app()
     try:
-        app = create_app()
         with app.app_context():
             db.create_all()
-            db.session.close()
+
     except Exception as e:
         print(e)
+    app.run(debug=True, port=5000)
