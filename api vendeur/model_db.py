@@ -1,19 +1,25 @@
-# models.py (SQLAlchemy)
-from datetime import datetime, timezone
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from datetime import datetime, timezone
+from setting.config import db
+
+# lambda:datetime.now(timezone.utc) I is a function that automatically return the date at instance creation
 
 class Vendeur(db.Model):
     __tablename__ = "vendeur"
+
     id_vendeur = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     mot_de_passe = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+    created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True) # get current time at runtime
+
+    # table relation
+    boutique = db.relationship("Boutique", backpopulates= "vendeur", uselist= False, cascade="all, delete-orphan")
+    produit = db.relationship("Produit", backpopulates="vendeur", cascade="all, delete-orphan")
 
 class Boutique(db.Model):
     __tablename__ = "boutique"
+
     id_boutique = db.Column(db.Integer, primary_key=True)
     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
     nom = db.Column(db.String(150), nullable=False)
@@ -21,6 +27,10 @@ class Boutique(db.Model):
     domaine = db.Column(db.String(150))
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+
+    # table relation
+    vendeur = db.relationship("Vendeur", backpopulate="boutique", uselist=True)
+
 
 class Categorie(db.Model):
     __tablename__ = "categorie"
@@ -36,17 +46,10 @@ class Produit(db.Model):
     prix = db.Column(db.Numeric(12,2), nullable=False)
     description = db.Column(db.Text)
     quantite = db.Column(db.Integer, default=0)
-    image = db.Column(db.Text)
+    image = db.Column(db.Blo)
     est_archive = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
 
-# class Commande(db.Model):
-#     __tablename__ = "commande"
-#     id_commande = db.Column(db.Integer, primary_key=True)
-#     id_produit = db.Column(db.Integer, db.ForeignKey('produit.id_produit'), nullable=False)
-#     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur'), nullable=False)
-#     quantite = db.Column(db.Integer, nullable=False)
-#     statut = db.Column(db.String(50), default='en_attente')
-#     total = db.Column(db.Numeric(12,2), nullable=False)
-#     date_commande = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
+    # table relation
+    vendeur = db.relationship("vendeur", backpopulates="produit", uselist= True)

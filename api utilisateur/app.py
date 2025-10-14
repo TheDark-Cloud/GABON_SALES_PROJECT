@@ -1,8 +1,6 @@
 import os
-
 from flask import Flask
 from extension import db
-from blueprints.role import role_bp
 from blueprints.utilisateur import utilisateur_bp
 from blueprints.complete_compte import complete_compte_bp
 from blueprints.role import role_bp
@@ -12,14 +10,13 @@ from flask_migrate import Migrate
 from os import getenv
 from dotenv import load_dotenv
 
-from model_db import Role
 
 migrate = Migrate()
 
 load_dotenv()
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI_API_UTILISATEUR')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS')
     app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
     app.config["JWT_ALGORITHM"] = os.environ.get('JWT_ALGORITHM')
