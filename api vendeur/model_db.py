@@ -10,7 +10,7 @@ class Vendeur(db.Model):
     id_vendeur = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(150), nullable=False, unique=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    hassed_password = db.Column(db.Text, nullable=False)
+    hashed_password = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True) # get current time at runtime
 
     # table relation

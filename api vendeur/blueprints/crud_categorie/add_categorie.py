@@ -8,7 +8,7 @@ add_categorie_bp = Blueprint('add_categorie', __name__)
 # this route is ok
 @add_categorie_bp.route('/add_categorie', methods=['POST'])
 def add_category():
-    """Add categorie in the databse"""
+    """Add categories in the database"""
     data = request.get_json()
 
     try:
