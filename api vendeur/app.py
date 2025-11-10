@@ -1,9 +1,14 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_jwt_extended import JWTManager
 
-from blueprints.crud_categorie.add_categorie import add_categorie_bp
-from blueprints.crud_categorie.get_categorie import get_categorie_bp
+from blueprints.crud_categorie.add_category import add_categorie_bp
+from blueprints.crud_categorie.get_category import get_categorie_bp
+from blueprints.crud_produit.add_product import add_product_bp
+from blueprints.crud_produit.delete_product import delete_product_bp
+from blueprints.crud_produit.update_product import update_product_bp
+
 from setting.config import db
 from flask_migrate import Migrate
 
@@ -22,12 +27,20 @@ def create_app():
     myapp.config['JWT_HEADER_NAME'] = os.environ.get('JWT_HEADER_NAME', "Bearer")
     myapp.config['JWT_EXP_DELTA_SECONDS'] = int(os.environ.get('JWT_EXP_DELTA_SECONDS', "2524608000"))
 
+    jwt_manager = JWTManager(myapp)
+
     db.init_app(myapp)
     db_migrate.init_app(myapp, db)
 
-    # registering all the routes
+    # registering all the route
+    # Category
     myapp.register_blueprint(get_categorie_bp)
     myapp.register_blueprint(add_categorie_bp)
+
+    # Product
+    myapp.register_blueprint(add_product_bp)
+    myapp.register_blueprint(delete_product_bp)
+    myapp.register_blueprint(update_product_bp)
 
     return myapp
 
