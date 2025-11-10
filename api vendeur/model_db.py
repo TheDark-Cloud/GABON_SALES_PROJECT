@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from setting.config import db
 from base64 import b64encode
 
-# lambda:datetime.now(timezone.utc) I is a function that automatically return the date at instance creation
+# lambda: datetime.now(timezone.utc) I is a function that automatically return the date at instance creation
 
 class Vendeur(db.Model):
     __tablename__ = "vendeur"
@@ -64,15 +64,15 @@ class Categorie(db.Model):
     def to_dict(self):
         return {"id_categorie": self.id_categorie, "nom_categorie": self.nom_categorie}
 
-class Produit(db.Model):
+class Product(db.Model):
     __tablename__ = "produit"
-    id_produit = db.Column(db.Integer, primary_key=True)
+    id_product = db.Column(db.Integer, primary_key=True)
     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
-    id_categorie = db.Column(db.Integer, db.ForeignKey('categorie.id_categorie'))
-    nom = db.Column(db.String(200), nullable=False)
-    prix = db.Column(db.Numeric(12,2), nullable=False)
+    id_category = db.Column(db.Integer, db.ForeignKey('categorie.id_categorie'))
+    product_name = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.Numeric(12, 2), nullable=False)
     description = db.Column(db.Text)
-    quantite = db.Column(db.Integer, default=0)
+    quantity = db.Column(db.Integer, default=0)
     image = db.Column(db.LargeBinary, nullable=False)
     # est_archive = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -85,10 +85,10 @@ class Produit(db.Model):
     #methode
     def to_dict(self):
         return {
-            "id_categorie": self.id_categorie,
-            "nom": self.nom,
-            "prix": self.prix,
+            "id_category": self.id_category,
+            "product_name": self.product_name,
+            "price": self.price,
             "description": self.description,
-            "quantite": self.quantite,
+            "quantity": self.quantity,
             "image": b64encode(self.image).decode("utf-8")
         }

@@ -9,6 +9,7 @@ add_categorie_bp = Blueprint('add_categorie', __name__)
 @add_categorie_bp.route('/add_categorie', methods=['POST'])
 def add_category():
     """Add categories in the database"""
+
     data = request.get_json()
 
     try:
@@ -24,6 +25,6 @@ def add_category():
         db.session.commit()
     except IntegrityError:
         db.session.rollback()
-        return ({"error":{"message": "Category already exist"}}), 409
+        return ({"error": "Category already exist"}), 409
     return jsonify(categorie.to_dict()), 201
 

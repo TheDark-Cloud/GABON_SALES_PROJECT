@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-from flask_sqlalchemy import SQLAlchemy
 
 from model_db import Categorie
 from setting.config import db
@@ -14,9 +13,9 @@ def get_categorie():
     try:
         categories = Categorie.query.all()
         if not categories:
-            return jsonify({"error": {"message": "No categories found"}}), 204
+            return jsonify({"error": "No categories found"}), 204
 
         return jsonify({"data": [categorie.to_dic() for categorie in categories]}), 200
 
     except Exception as e:
-        return jsonify({"error": {"message": str(e)}}), 500
+        return jsonify({"error": str(e)}), 500

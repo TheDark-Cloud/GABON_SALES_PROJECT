@@ -107,6 +107,7 @@ def get_user(user_id, _token_payload=None):
     allowed, err = _authorize_action_on_user(_token_payload, user_id)
     if not allowed:
         return err
+
     user = Utilisateur.query.get_or_404(user_id)
     return jsonify({"data": user.to_dict()}), 200
 

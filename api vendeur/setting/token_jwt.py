@@ -25,6 +25,7 @@ def create_encoded_token(identity: dict, expire: int = None, algorithm: str = No
 
     return token
 
+
 def decode_token(token: str) -> dict:
     """Decode JWT token
     Args: token(str): JWT token"""
