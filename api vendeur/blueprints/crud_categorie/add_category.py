@@ -1,30 +1,34 @@
 from flask import Blueprint, request, jsonify
-from sqlalchemy.exc import IntegrityError
 from model_db import Categorie
 from setting.config import db
+from flask_jwt_extended import jwt_required, get_jwt
+from setting.auth import authenticate_validator, payload_validator
 
 add_categorie_bp = Blueprint('add_categorie', __name__)
 
-# this route is ok
 @add_categorie_bp.route('/add_categorie', methods=['POST'])
+@jwt_required()
 def add_category():
     """Add categories in the database"""
+    claims = get_jwt()
+    payload = request.get_json()
 
-    data = request.get_json()
+    if authenticate_validator(claims):
+        try:
+            if claims.get('role') == 'Admin':
+                if payload_validator(payload):
 
-    try:
-        if not data:
-            return jsonify({"error":{"message": "Empty data provided"}}), 204
+                    if Categorie.query.filter_by(nom_categorie=payload['nom_categorie']).scalar() is not None:
+                        return jsonify({"error":"Category already exist"}), 409
 
-        name = data['nom_categorie']
+                    categorie = Categorie(nom_categorie=payload['nom_categorie'])
+                    db.session.add(categorie)
+                    db.session.commit()
+                return jsonify(categorie.to_dict()), 201
 
-        if db.session.query(Categorie).filter(Categorie.nom_categorie == name).scalar():
-            return jsonify({"error":{"message": "Category already exist"}}), 409
-        categorie = Categorie( nom_categorie=name)
-        db.session.add(Categorie(nom_categorie =name))
-        db.session.commit()
-    except IntegrityError:
-        db.session.rollback()
-        return ({"error": "Category already exist"}), 409
-    return jsonify(categorie.to_dict()), 201
+        except Exception as ex:
+            db.session.rollback()
+            return ({"error": str(ex)}), 404
 
+
+    return jsonify({"error": "Unauthorized role"}), 403

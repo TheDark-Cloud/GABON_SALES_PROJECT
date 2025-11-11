@@ -1,15 +1,20 @@
 from flask import Blueprint, jsonify
-
+from flask_jwt_extended import get_jwt, jwt_required
 from model_db import Categorie
 from setting.config import db
 
-
 get_categorie_bp = Blueprint('get_categorie', __name__)
 
-# this route is ok
 @get_categorie_bp.route('/get_categorie', methods=['GET'])
+@jwt_required()
 def get_categorie():
     """Return a library of all the categories"""
+    claims = get_jwt()
+    if not claims:
+        return jsonify({"error": "Authorisation required"}), 401
+    role = claims.get('role')
+    if role != 'Admin':
+        return jsonify({"error": "Unauthorized role"}), 403
     try:
         categories = Categorie.query.all()
         if not categories:

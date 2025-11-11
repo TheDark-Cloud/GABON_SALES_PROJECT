@@ -28,9 +28,9 @@ class Boutique(db.Model):
 
     id_boutique = db.Column(db.Integer, primary_key=True)
     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
-    nom = db.Column(db.String(150), nullable=False, unique=True)
+    name = db.Column(db.String(150), nullable=False, unique=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    adresse = db.Column(db.Text)
+    address = db.Column(db.Text)
     domaine = db.Column(db.String(150))
     description = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=lambda:datetime.now(timezone.utc), index=True)
@@ -43,8 +43,8 @@ class Boutique(db.Model):
         return {
             "id_boutique": self.id_boutique,
             "id_vendeur": self.id_vendeur,
-            "nom": self.nom,
-            "adresse": self.adresse,
+            "name": self.name,
+            "address": self.address,
             "domaine": self.domaine,
             "description": self.description,
             "created_at": self.created_at
@@ -62,7 +62,8 @@ class Categorie(db.Model):
     produit = db.relationship("Produit", back_populates="categorie")
     # methods
     def to_dict(self):
-        return {"id_categorie": self.id_categorie, "nom_categorie": self.nom_categorie}
+        return {"id_categorie": self.id_categorie,
+                "nom_categorie": self.nom_categorie}
 
 class Product(db.Model):
     __tablename__ = "produit"

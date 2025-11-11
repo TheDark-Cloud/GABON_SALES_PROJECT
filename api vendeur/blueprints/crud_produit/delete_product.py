@@ -13,15 +13,15 @@ def delete_product():
     identity = get_jwt_identity()
     claims = get_jwt()
 
-    data = request.get_json()
 
     if not identity or not claims:
         return jsonify({"error": "Authorisation required"}), 401
 
     id_product = identity if isinstance(identity, int) else identity["id_product"]
+    id_vendeur = claims.get('id_vendeur')
 
     try:
-        row = Product.query.filter_by(id_product=id_product).delete()
+        row = Product.query.filter_by(id_product=id_product, id_vendeur=id_vendeur).delete()
         if row == 0:
             db.session.rollback()
             return jsonify({"error": "Product not found"}), 404
