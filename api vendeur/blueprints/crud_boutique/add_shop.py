@@ -18,18 +18,12 @@ def add_shop():
     payload = request.get_json()
     required_fields = ['id_vendeur', 'name', 'address', 'phone', 'email']
 
-    if not claims or not identity:
-        return jsonify({"error": "Authorisation required"}), 401
-    role = claims.get('role')
-    if role != 'Vendeur':
+    payload_validator(payload, required_fields)
+
+
+    if claims.get('role') != 'Vendeur':
         return jsonify({"error": "Unauthorized role"}), 403
     try:
-
-        if not payload:
-            return jsonify({"error": "Missing payload"}), 400
-
-        if not isinstance(payload, dict):
-            return jsonify({"error": "Invalid payload"}), 400
         shop = Boutique(id_vendeur=identity['id_vendeur'],
                         name=payload['name'],
                         address=payload['address'],

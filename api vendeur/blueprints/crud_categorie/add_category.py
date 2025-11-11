@@ -13,22 +13,23 @@ def add_category():
     claims = get_jwt()
     payload = request.get_json()
 
-    if authenticate_validator(claims):
-        try:
-            if claims.get('role') == 'Admin':
-                if payload_validator(payload):
+    authenticate_validator(claims)
+    try:
+        if claims.get('role') == 'Admin':
+            if payload_validator(payload):
 
-                    if Categorie.query.filter_by(nom_categorie=payload['nom_categorie']).scalar() is not None:
-                        return jsonify({"error":"Category already exist"}), 409
+                if Categorie.query.filter_by(nom_categorie=payload['nom_categorie']).scalar() is not None:
+                    return jsonify({"error": "Category already exist"}), 409
 
-                    categorie = Categorie(nom_categorie=payload['nom_categorie'])
-                    db.session.add(categorie)
-                    db.session.commit()
-                return jsonify(categorie.to_dict()), 201
+                categorie = Categorie(nom_categorie=payload['nom_categorie'])
+                db.session.add(categorie)
+                db.session.commit()
+            return jsonify({"message": "Category successully added",
+                            "data": categorie.to_dict()}), 201
 
-        except Exception as ex:
-            db.session.rollback()
-            return ({"error": str(ex)}), 404
+    except Exception as ex:
+        db.session.rollback()
+        return ({"error": str(ex)}), 404
 
 
     return jsonify({"error": "Unauthorized role"}), 403

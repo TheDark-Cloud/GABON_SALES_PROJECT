@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt, jwt_required, get_jwt_identity
 from model_db import Product
 from setting.config import db
+from setting.auth import authenticate_validator, payload_validator
 
 
 delete_product_bp = Blueprint('delete_product', __name__)
@@ -13,9 +14,7 @@ def delete_product():
     identity = get_jwt_identity()
     claims = get_jwt()
 
-
-    if not identity or not claims:
-        return jsonify({"error": "Authorisation required"}), 401
+    authenticate_validator(identity, claims)
 
     id_product = identity if isinstance(identity, int) else identity["id_product"]
     id_vendeur = claims.get('id_vendeur')

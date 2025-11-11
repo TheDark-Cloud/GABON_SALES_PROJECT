@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt, jwt_required
 from model_db import Categorie
-from setting.config import db
+from setting.auth import authenticate_validator
 
 get_categorie_bp = Blueprint('get_categorie', __name__)
 
@@ -10,10 +10,8 @@ get_categorie_bp = Blueprint('get_categorie', __name__)
 def get_categorie():
     """Return a library of all the categories"""
     claims = get_jwt()
-    if not claims:
-        return jsonify({"error": "Authorisation required"}), 401
-    role = claims.get('role')
-    if role != 'Admin':
+    authenticate_validator(claims=claims)
+    if claims.get('role') != 'Admin':
         return jsonify({"error": "Unauthorized role"}), 403
     try:
         categories = Categorie.query.all()

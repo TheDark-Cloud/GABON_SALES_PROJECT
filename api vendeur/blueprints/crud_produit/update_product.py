@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt, jwt_required, get_jwt_identity
 from model_db import Product
+from setting.auth import authenticate_validator, payload_validator
 from setting.config import db
 
 
@@ -17,16 +18,8 @@ def update_product():
         payload = request.get_json()
         required_fields = ['id_vendeur', 'product_name', 'price', 'description', 'quantity', 'image']
 
-        if not claims or not identity:
-            return jsonify({"error": "Authorisation required"}), 401
-        if not payload:
-            return jsonify({"error": "Emmpty data provided"}), 204
-        if not isinstance(payload, dict):
-            return jsonify({"error": "Invalid payload"}), 400
-
-        if not all(k in payload for k in required_fields):
-            return jsonify({"error": "Missing required fields"}), 400
-
+        authenticate_validator(identity, claims)
+        payload_validator(payload, required_fields)
 
         try:
             if claims.get('role') == 'Vendeur':
