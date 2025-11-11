@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt, jwt_required, get_jwt_identity
 from model_db import Boutique
 from setting.config import db
+from setting.auth import authenticate_validator, payload_validator
 
 add_shop_bp = Blueprint('add_shop', __name__)
 
@@ -12,8 +13,10 @@ def add_shop():
     claims = get_jwt()
     identity = get_jwt_identity()
 
+    authenticate_validator(claims)
+
     payload = request.get_json()
-    required_fields = ['name', 'address', 'phone', 'email']
+    required_fields = ['id_vendeur', 'name', 'address', 'phone', 'email']
 
     if not claims or not identity:
         return jsonify({"error": "Authorisation required"}), 401
@@ -21,8 +24,6 @@ def add_shop():
     if role != 'Vendeur':
         return jsonify({"error": "Unauthorized role"}), 403
     try:
-        payload = request.get_json()
-        required_fields = ['id_vendeur', 'name', 'address', 'phone', 'email']
 
         if not payload:
             return jsonify({"error": "Missing payload"}), 400

@@ -1,25 +1,25 @@
-from typing import Optional, Tuple
+from flask import jsonify
 
-def authenticate_validator(identity=None, claims=None) -> Tuple[bool, Optional[str]]:
+def authenticate_validator(identity=None, claims=None) :
     if identity is None or claims is None:
-        return False, "Authorisation required"
+        return jsonify({"error":"Invalid authorisation required"}), 401
 
     if not isinstance(identity, dict) or not isinstance(claims, dict):
-        return False, "Invalid authorisation format"
+        return jsonify({"error":"Invalid authorisation format"}), 400
 
-    return True, None
+    return None
 
 
-def payload_validator(payload, required_fields: Optional[list] = None) -> Tuple[bool, Optional[str]]:
+def payload_validator(payload, required_fields):
     if payload is None:
-        return False, "Empty data provided"
+        return jsonify({"error": "Empty data provided"}), 400
 
     if not isinstance(payload, dict):
-        return False, "Invalid payload format; expected JSON object"
+        return jsonify({"error": "Invalid payload format; expected JSON object"}), 400
 
     if required_fields:
         missing = [k for k in required_fields if k not in payload]
         if missing:
-            return False, f"Missing required fields: {missing}"
+            return jsonify({"error": f"Missing required fields: {missing}"}), 400
 
-    return True, None
+    return None
