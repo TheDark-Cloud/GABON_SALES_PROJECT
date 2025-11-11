@@ -13,10 +13,10 @@ def add_shop():
     claims = get_jwt()
     identity = get_jwt_identity()
 
-    authenticate_validator(claims)
+    authenticate_validator(None,claims=claims)
 
     payload = request.get_json()
-    required_fields = ['id_vendeur', 'name', 'address', 'phone', 'email']
+    required_fields = ['name', 'address', 'phone', 'email']
 
     payload_validator(payload, required_fields)
 

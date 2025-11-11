@@ -1,1 +1,0 @@
-# The idea behind removing/deleting is to archive all the data related to that data

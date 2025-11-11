@@ -5,9 +5,14 @@ from flask_jwt_extended import JWTManager
 
 from blueprints.crud_categorie.add_category import add_categorie_bp
 from blueprints.crud_categorie.get_category import get_categorie_bp
+
 from blueprints.crud_produit.add_product import add_product_bp
 from blueprints.crud_produit.delete_product import delete_product_bp
 from blueprints.crud_produit.update_product import update_product_bp
+
+from blueprints.crud_boutique.add_shop import add_shop_bp
+from blueprints.crud_boutique.update_shop import update_shop_bp
+from blueprints.crud_boutique.delete_shop import delete_shop_bp
 
 from setting.config import db
 from flask_migrate import Migrate
@@ -41,6 +46,11 @@ def create_app():
     myapp.register_blueprint(add_product_bp)
     myapp.register_blueprint(delete_product_bp)
     myapp.register_blueprint(update_product_bp)
+
+    # Boutique
+    myapp.register_blueprint(add_shop_bp)
+    myapp.register_blueprint(update_shop_bp)
+    myapp.register_blueprint(delete_shop_bp)
 
     return myapp
 
