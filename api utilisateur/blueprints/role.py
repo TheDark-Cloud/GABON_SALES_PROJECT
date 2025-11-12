@@ -9,7 +9,7 @@ role_bp = Blueprint("role", __name__)
 def get_roles():
     try:
         roles = db.session.query(Role).filter(Role.nom_role != "Admin").all()
-        return jsonify({"data": [r.to_dict() for r in roles]}), 200
+        return jsonify({"roles": [r.to_dict() for r in roles]}), 200
     except SQLAlchemyError:
         current_app.logger.exception("Failed to fetch roles")
         return jsonify({"error": {"message": "Internal server error"}}), 500

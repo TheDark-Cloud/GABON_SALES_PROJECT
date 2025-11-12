@@ -3,16 +3,16 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
-from blueprints.crud_categorie.add_category import add_categorie_bp
-from blueprints.crud_categorie.get_category import get_categorie_bp
+from blueprints.crud_category.add_category import add_categorie_bp
+from blueprints.crud_category.get_category import get_categorie_bp
 
-from blueprints.crud_produit.add_product import add_product_bp
-from blueprints.crud_produit.delete_product import delete_product_bp
-from blueprints.crud_produit.update_product import update_product_bp
+from blueprints.crud_product.add_product import add_product_bp
+from blueprints.crud_product.delete_product import delete_product_bp
+from blueprints.crud_product.update_product import update_product_bp
 
-from blueprints.crud_boutique.add_shop import add_shop_bp
-from blueprints.crud_boutique.update_shop import update_shop_bp
-from blueprints.crud_boutique.delete_shop import delete_shop_bp
+from blueprints.crud_shop.add_shop import add_shop_bp
+from blueprints.crud_shop.update_shop import update_shop_bp
+from blueprints.crud_shop.delete_shop import delete_shop_bp
 
 from setting.config import db
 from flask_migrate import Migrate
