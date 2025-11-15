@@ -1,19 +1,14 @@
 import os
-from asyncio import create_eager_task_factory
-
 from flask import Flask
-from extension import db
+from setting.config import db
+from model_db import Role
 from blueprints.crud_utilisateur.create_user import create_user_bp
 from blueprints.crud_utilisateur.delete_user import delete_user_bp
 from blueprints.crud_utilisateur.get_user import get_user_bp
 from blueprints.crud_utilisateur.update_user import update_user_bp
 
-from blueprints.complete_compte import complete_compte_bp
-from blueprints.role import role_bp
-from blueprints.log_in import log_in_bp
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from os import getenv
 from dotenv import load_dotenv
 
 
@@ -39,10 +34,6 @@ def create_app():
     my_app.register_blueprint(get_user_bp)
     my_app.register_blueprint(update_user_bp)
 
-    # route complete_compte
-    my_app.register_blueprint(complete_compte_bp)
-    my_app.register_blueprint(role_bp)
-    my_app.register_blueprint(log_in_bp)
 
     return my_app
 
@@ -54,4 +45,9 @@ if __name__ == '__main__':
 
     except Exception as e:
         print(e)
+
     app.run(debug=True, port=5000)
+
+    # db.session.add_all(Role("admin"), Role("utilisateur"), Role("vendeur"))
+    # db.session.commit()
+    # db.session.close()

@@ -36,7 +36,9 @@ def create_user():
 
         user = Utilisateur(mail=user_data.get("mail").strip().lower(),
                            password=hpw(user_data.get("password")),
-                           id_role=Role.query.filter_by(role=user_data.get("role")).first().role_id)
+                           id_role=Role.query.filter_by(role=user_data.get("role")).first().role_id,
+                           is_complete=False)
+
         db.session.add(user)
         db.session.commit()
 

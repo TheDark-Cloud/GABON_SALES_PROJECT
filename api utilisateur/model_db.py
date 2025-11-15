@@ -121,12 +121,10 @@ class Role(db.Model):
 
     utilisateur = db.relationship('Utilisateur', back_populates='role', lazy=True)
 
-    def __init__(self, nom_role, id_role=None):
+    def __init__(self, nom_role):
         nom_role = (nom_role or "").strip()
         if not nom_role:
             raise ValueError("nom_role ne peut pas être vide")
-        if id_role is not None:
-            self.id_role = id_role
         self.name_role = nom_role
 
     def to_dict(self):
