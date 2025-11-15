@@ -79,7 +79,7 @@ def create_user():
     try:
         # Pass raw password to model if your model hashes it; otherwise store hashed
         # Here we pass hashed password to be consistent with model_db expecting password_hash
-        user = Utilisateur(email=email, password=generate_password_hash(password), id_role=id_role)
+        user = Utilisateur(mail=email, password=generate_password_hash(password), id_role=id_role)
         db.session.add(user)
         db.session.commit()
     except IntegrityError as ie:

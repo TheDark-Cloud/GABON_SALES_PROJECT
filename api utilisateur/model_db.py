@@ -13,25 +13,27 @@ def _now_utc():
 class Utilisateur(db.Model):
     __tablename__ = 'utilisateur'
     id_utilisateur = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(200), unique=True, nullable=False)
+    mail = db.Column(db.String(200), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     id_role = db.Column(db.Integer, db.ForeignKey('role.id_role'), nullable=False)
     created_at = db.Column(db.DateTime, default=_now_utc, index=True)
+    is_complete = db.Boolean()
 
     role = db.relationship('Role', back_populates='utilisateur', lazy='joined')
     administrateur = db.relationship('Administrateur', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
     vendeur = db.relationship('Vendeur', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
     client = db.relationship('Client', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
 
-    def __init__(self, email, password, id_role):
-        email = (email or "").strip().lower()
-        if not EMAIL_REGEX.fullmatch(email):
+    def __init__(self, mail, password, id_role, is_complete):
+        mail = (mail or "").strip().lower()
+        if not EMAIL_REGEX.fullmatch(mail):
             raise ValueError("Format du mail invalide")
         if not password or not isinstance(password, str) or len(password) < 8:
             raise ValueError("Mot de passe doit être composé de 8 caractères minimum")
-        self.email = email
-        self.password_hash = generate_password_hash(password)
+        self.email = mail
+        self.password_hash = password
         self.id_role = id_role
+        self.is_complete = False if None else is_complete
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -39,8 +41,7 @@ class Utilisateur(db.Model):
     def to_dict(self):
         return {
             'id_utilisateur': self.id_utilisateur,
-            'email': self.email,
-            'id_role': self.id_role,
+            'mail': self.mail,
             # 'created_at': self.created_at.isoformat() if self.created_at else None
         }
 
@@ -115,7 +116,7 @@ class Client(db.Model):
 class Role(db.Model):
     __tablename__ = 'role'
     id_role = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nom_role = db.Column(db.String(100), unique=True, nullable=False)
+    name_role = db.Column(db.String(100), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=_now_utc, index=True)
 
     utilisateur = db.relationship('Utilisateur', back_populates='role', lazy=True)
@@ -126,7 +127,7 @@ class Role(db.Model):
             raise ValueError("nom_role ne peut pas être vide")
         if id_role is not None:
             self.id_role = id_role
-        self.nom_role = nom_role
+        self.name_role = nom_role
 
     def to_dict(self):
-        return {'id': self.id_role, 'nom_role': self.nom_role}
+        return {'id': self.id_role, 'nom_role': self.name_role}

@@ -8,7 +8,7 @@ role_bp = Blueprint("role", __name__)
 @role_bp.route("/roles", methods=["GET"])   #ok
 def get_roles():
     try:
-        roles = db.session.query(Role).filter(Role.nom_role != "Admin").all()
+        roles = db.session.query(Role).filter(Role.name_role != "Admin").all()
         return jsonify({"roles": [r.to_dict() for r in roles]}), 200
     except SQLAlchemyError:
         current_app.logger.exception("Failed to fetch roles")

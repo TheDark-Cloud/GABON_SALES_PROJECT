@@ -1,7 +1,6 @@
 from flask import jsonify, request, Blueprint
 from setting.auth import authenticate_validator, payload_validator
 from flask_jwt_extended import get_jwt_identity, jwt_required, get_jwt
-from setting.config import db
 from model_db import Product
 
 get_product_bp = Blueprint('get_product', __name__)
