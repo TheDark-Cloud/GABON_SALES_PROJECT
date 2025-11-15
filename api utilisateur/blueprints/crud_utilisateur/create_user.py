@@ -7,7 +7,12 @@ create_user_bp = Blueprint("create_user", __name__)
 
 @create_user_bp.route("/create_user", methods=["POST"])
 def create_user():
-    """Create a new user"""
+    """Create a new user
+    expected JSON body: {mail: <email>, password: <password>, role: <role>}
+    return: {user_data: <token>}
+    """
+
+
     try:
         user_data = request.get_json(silent=True) or {}
         if user_data is None:
@@ -26,6 +31,8 @@ def create_user():
 
         if Utilisateur.query.filter_by(mail=user_data.get("mail").strip().lower().scalar()):
             return jsonify({"error": "Email already in use"}), 409
+        if Role.query.filter_by(role=user_data.get("role").strip().lower().scalar()):
+            return jsonify({"error": "Role does not exist"}), 409
 
         user = Utilisateur(mail=user_data.get("mail").strip().lower(),
                            password=hpw(user_data.get("password")),
@@ -35,8 +42,8 @@ def create_user():
 
         identity = {"id_utilisateur": user.utilisateur_id}
         claims = {"role": user.role}
-
         return jsonify({"user_data": tokenize(identity=identity, claims=claims)}), 201
+
     except Exception as ex:
         db.session.rollback()
         return jsonify({"error": {"message": str(ex)}}), 400
