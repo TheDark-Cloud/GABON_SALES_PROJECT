@@ -16,7 +16,7 @@ def delete_user():
         if not isinstance(identity, dict):
             return jsonify({"error": "Invalid credentials."}), 401
 
-        user = Utilisateur.query.filter_by(id_utilisateur=identity["id_utilisateur"]).first()
+        user = Utilisateur.query.get_or_404(id_utilisateur=identity["id_utilisateur"]).delete()
         if not user:
             return jsonify({"error": "User not found."}), 404
 

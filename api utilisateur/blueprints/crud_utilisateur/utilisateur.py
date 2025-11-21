@@ -140,7 +140,7 @@ def update_user(user_id, _token_payload=None):
         pwd = data["password"]
         if not isinstance(pwd, str) or len(pwd) < 8:
             return jsonify({"error": {"message": "Password must be at least 8 chars"}}), 400
-        user.password_hash = generate_password_hash(pwd)
+        user.hashed_password = generate_password_hash(pwd)
         updated = True
 
     if not updated:

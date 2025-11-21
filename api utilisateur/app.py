@@ -43,11 +43,12 @@ if __name__ == '__main__':
         with app.app_context():
             db.create_all()
 
+            # db.session.add(Role("admin"))
+            # db.session.add(Role("vendeur"))
+            # db.session.add(Role("client"))
+            # db.session.commit()
     except Exception as e:
         print(e)
 
     app.run(debug=True, port=5000)
 
-    # db.session.add_all(Role("admin"), Role("utilisateur"), Role("vendeur"))
-    # db.session.commit()
-    # db.session.close()

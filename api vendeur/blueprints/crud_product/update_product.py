@@ -26,11 +26,12 @@ def update_product():
                 id_product = identity["id_vendeur"]
                 id_vendeur = identity["id_vendeur"]
 
-                row = Product.query.filter_by(id_product=id_product, id_vendeur=id_vendeur).update({"product_name": payload['product_name'],
-                                                                       "price": payload['price'],
-                                                                       "description": payload['description'],
-                                                                       "quantity": payload['quantity'],
-                                                                       "image": payload['image']})
+                row = (Product.query.filter_by(id_product=id_product, id_vendeur=id_vendeur)
+                       .update({"product_name": payload['product_name'],
+                                "price": payload['price'],
+                                "description": payload['description'],
+                                "quantity": payload['quantity'],
+                                "image": payload['image']}))
                 if row == 0:
                     db.session.rollback()
                     return jsonify({"error": "Product not found"}), 404
