@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from setting.config import db
-from model_db import Role
 from blueprints.crud_utilisateur.create_user import create_user_bp
 from blueprints.crud_utilisateur.delete_user import delete_user_bp
 from blueprints.crud_utilisateur.get_user import get_user_bp
@@ -21,7 +20,6 @@ def create_app():
     my_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS')
     my_app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
     my_app.config["JWT_ALGORITHM"] = os.environ.get('JWT_ALGORITHM')
-    my_app.config["JWT_HEADER_TYPE"] = os.environ.get('JWT_HEADER_TYPE')
     my_app.config["JWT_HEADER_TYPE"] = os.environ.get('JWT_HEADER_TYPE')
 
     db.init_app(my_app)

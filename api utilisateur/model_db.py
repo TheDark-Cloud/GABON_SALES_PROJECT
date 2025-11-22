@@ -36,19 +36,19 @@ class Administrateur(db.Model):
     __tablename__ = 'administrateur'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur', ondelete='CASCADE'), nullable=False)
-    nom = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=_now_utc, index=True)
     statut = db.Column(db.Boolean, default=True)
 
     utilisateur = db.relationship('Utilisateur', back_populates='administrateur', uselist=False)
 
     def __init__(self, nom, id_utilisateur=None):
-        self.nom = (nom or "").strip()
+        self.name = (nom or "").strip()
         if id_utilisateur is not None:
             self.id_utilisateur = id_utilisateur
 
     def to_dict(self):
-        return {'id': self.id, 'nom': self.nom, 'id_utilisateur': self.id_utilisateur}
+        return {'id': self.id, 'nom': self.name, 'id_utilisateur': self.id_utilisateur}
 
 class Vendeur(db.Model):
     __tablename__ = 'vendeur'
