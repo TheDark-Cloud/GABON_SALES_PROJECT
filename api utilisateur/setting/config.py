@@ -1,7 +1,8 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 import re
+from flask import jsonify
 
 
 db: SQLAlchemy = SQLAlchemy()
@@ -12,9 +13,31 @@ def hpw(password):
     """Hash a password."""
     return generate_password_hash(password, method=os.environ.get("JWT_ALGORITHM"))
 
-def verify_password(password):
-    return check_password_hash(password)
+def is_valid_password_format(password):
+    """Check if the password is valid."""
+    if not isinstance(password, str) and len(password) < 8:
+        return False
+    return True
 
-def is_valid_format(email: str) -> bool:
+def is_valide_phone_format(phone_number):
+    """Check if the password is valid."""
+    if not isinstance(phone_number, str):
+        return False
+    if phone_number != 9:
+        return False
+    return True
+
+def is_valid_email_format(email: str) -> bool:
     """Check if the email is in valid format."""
     return bool(SIMPLE_RE.match(email))
+
+def validate_parameters(mail, password, phone_number):
+    if not is_valide_phone_format(phone_number):
+        return jsonify({"message": "Invalid phone number"}), 400
+
+    if not is_valid_email_format(mail):
+        return jsonify({"message": "Invalid email"}), 400
+
+    if not is_valid_password_format(password):
+        return jsonify({"message": "Invalid password"}), 400
+    return True

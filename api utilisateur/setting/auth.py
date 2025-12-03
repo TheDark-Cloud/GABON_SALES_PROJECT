@@ -23,5 +23,9 @@ def payload_validator(payload: Any, required_fields: Optional[list] = None) -> O
         missing = [k for k in required_fields if k not in payload]
         if missing:
             return {"error": f"Missing required fields: {missing}"}, 400
+        for k in required_fields:
+            if payload.get(k) is None:
+                return {"error": f"Missing required field: {k}"}, 400
 
     return None
+
