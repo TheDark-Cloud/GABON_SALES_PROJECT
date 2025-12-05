@@ -18,8 +18,10 @@ def create_app():
     my_app = Flask(__name__)
     my_app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI_API_UTILISATEUR')
     my_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS')
-    my_app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
+    my_app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+    my_app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
     my_app.config["JWT_ALGORITHM"] = os.environ.get('JWT_ALGORITHM')
+    my_app.config["JWT_ALGORITHM_HPW"] = os.environ.get('JWT_ALGORITHM_HPW')
     my_app.config["JWT_HEADER_TYPE"] = os.environ.get('JWT_HEADER_TYPE')
 
     db.init_app(my_app)
@@ -40,11 +42,7 @@ if __name__ == '__main__':
     try:
         with app.app_context():
             db.create_all()
-
-            # db.session.add(Role("admin"))
-            # db.session.add(Role("vendeur"))
-            # db.session.add(Role("client"))
-            # db.session.commit()
+            db.session.commit()
     except Exception as e:
         print(e)
 
