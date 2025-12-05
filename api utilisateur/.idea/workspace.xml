@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="role" />
+    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="role">
+      <change beforePath="$PROJECT_DIR$/../.env" beforeDir="false" afterPath="$PROJECT_DIR$/../.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../api gateway/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../api gateway/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,51 +61,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Flask server.Flask.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_create_user_success.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_get_user_authorization.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_get_user_requires_token_and_authorization.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_update_and_delete_flow.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_utilisateur.test_update_user_email_and_password.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_admin.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_auth_and_accounts.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_users.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_utilisateur.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.conftest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_user.executor&quot;: &quot;Run&quot;,
-    &quot;Python.delete_user.executor&quot;: &quot;Run&quot;,
-    &quot;Python.get_user.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tony/Desktop/GABON SALES PROJECT/api utilisateur&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Flask server.Flask.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields.executor": "Run",
+    "Python tests.Python tests for tests.test_utilisateur.test_create_user_success.executor": "Run",
+    "Python tests.Python tests for tests.test_utilisateur.test_get_user_authorization.executor": "Run",
+    "Python tests.Python tests for tests.test_utilisateur.test_get_user_requires_token_and_authorization.executor": "Run",
+    "Python tests.Python tests for tests.test_utilisateur.test_update_and_delete_flow.executor": "Run",
+    "Python tests.Python tests for tests.test_utilisateur.test_update_user_email_and_password.executor": "Run",
+    "Python tests.Python tests in test_admin.py.executor": "Run",
+    "Python tests.Python tests in test_auth_and_accounts.py.executor": "Run",
+    "Python tests.Python tests in test_users.py.executor": "Run",
+    "Python tests.Python tests in test_utilisateur.py.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.conftest.executor": "Run",
+    "Python.create_user.executor": "Run",
+    "Python.delete_user.executor": "Run",
+    "Python.get_user.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/Tony/Desktop/GABON SALES PROJECT/api utilisateur",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Tony\Desktop\GABON SALES PROJECT\api utilisateur" />
@@ -109,7 +112,30 @@
       <recent name="C:\Users\Tony\Desktop\GABON SALES PROJECT\api utilisateur\blueprints" />
     </key>
   </component>
-  <component name="RunManager" selected="Flask server.Flask">
+  <component name="RunManager" selected="Python.app">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="api utilisateur" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="create_user" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="api utilisateur" />
       <option name="ENV_FILES" value="" />
@@ -258,88 +284,21 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.test_utilisateur.test_create_user_success" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="api utilisateur" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_utilisateur.test_create_user_success&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_utilisateur.test_get_user_authorization" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="api utilisateur" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_utilisateur.test_get_user_authorization&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_utilisateur.test_update_and_delete_flow" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="api utilisateur" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_utilisateur.test_update_and_delete_flow&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_utilisateur.test_update_user_email_and_password" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="api utilisateur" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_utilisateur.test_update_user_email_and_password&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Flask server.Flask" />
+      <item itemvalue="Python.app" />
       <item itemvalue="Python.create_user" />
       <item itemvalue="Python.delete_user" />
       <item itemvalue="Python.get_user" />
       <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields" />
-      <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_create_user_success" />
-      <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_get_user_authorization" />
-      <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_update_and_delete_flow" />
-      <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_update_user_email_and_password" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.app" />
         <item itemvalue="Python.delete_user" />
         <item itemvalue="Python.create_user" />
         <item itemvalue="Python.get_user" />
         <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields" />
-        <item itemvalue="Python tests.Python tests for tests.test_utilisateur.test_create_user_success" />
       </list>
     </recent_temporary>
   </component>
@@ -379,6 +338,7 @@
       <workItem from="1763757405950" duration="2540000" />
       <workItem from="1763766274983" duration="60000" />
       <workItem from="1763828630331" duration="935000" />
+      <workItem from="1764785746830" duration="30666000" />
     </task>
     <task id="LOCAL-00001" summary="The the following routes works&#10;&#10;-utilisateur.py&#10;-role.py&#10;&#10;what is missing is:&#10;-complete_compte.py&#10;-login.py&#10;-admin.py">
       <option name="closed" value="true" />
@@ -444,11 +404,46 @@
       <option name="project" value="LOCAL" />
       <updated>1763828645798</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="role">
+      <option name="closed" value="true" />
+      <created>1764799251073</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1764799251073</updated>
+    </task>
+    <task id="LOCAL-00010" summary="role">
+      <option name="closed" value="true" />
+      <created>1764905967930</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1764905967930</updated>
+    </task>
+    <task id="LOCAL-00011" summary="role">
+      <option name="closed" value="true" />
+      <created>1764910343777</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1764910343777</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="The the following routes works&#10;&#10;-utilisateur.py&#10;-role.py&#10;&#10;what is missing is:&#10;-complete_compte.py&#10;-login.py&#10;-admin.py" />
@@ -456,12 +451,12 @@
     <option name="LAST_COMMIT_MESSAGE" value="role" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1763303976058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1764917172529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$.coverage" NAME=" Coverage Results" MODIFIED="1760421235854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$conftest.coverage" NAME="conftest Coverage Results" MODIFIED="1760338125024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/api_utilisateur$delete_user.coverage" NAME="delete_user Coverage Results" MODIFIED="1763193105328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blueprints/crud_utilisateur" />
     <SUITE FILE_PATH="coverage/api_utilisateur$get_user.coverage" NAME="get_user Coverage Results" MODIFIED="1763192511228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blueprints/crud_utilisateur" />
-    <SUITE FILE_PATH="coverage/api_utilisateur$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1763303968524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\Users\Tony\Desktop\GABON SALES PROJECT\api utilisateur" />
+    <SUITE FILE_PATH="coverage/api_utilisateur$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1764790450596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$create_user.coverage" NAME="create_user Coverage Results" MODIFIED="1763192515680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blueprints/crud_utilisateur" />
   </component>
 </project>
