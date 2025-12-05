@@ -13,8 +13,11 @@ def get_user():
         claims = get_jwt()
         authenticate_validator(identity= identity, claims= claims)
 
-        if not Utilisateur.query.filter_by(identity['id_utilisateur']).role == "Admin":
+        user = Utilisateur.query.filter_by(id_utilisateur=identity['id_utilisateur'])
+        if not user:
             return jsonify({"error": "User not found"}), 401
+        if user.role != "admin":
+            return jsonify({"error": "Unauthorized access"}), 401
         users = Utilisateur.query.all()
         return jsonify({"users": [user.to_dict() for user in users]}), 200
     except Exception as ex:

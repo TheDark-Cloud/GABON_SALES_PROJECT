@@ -18,7 +18,6 @@ def create_user():
     return: {user_data: <token>}
     """
 
-
     try:
         user_data = request.get_json(silent=True) or {} # getting user data
         required_fields = ["mail", "password", "phone_number", "name_role"] # what should be in the user data
@@ -34,28 +33,32 @@ def create_user():
         if not (isinstance(user_data.get('phone_number'), str) and len(user_data.get('phone_number')) == 9):
             return jsonify({"error": "Invalid phone number format"}), 400
 
-        if Utilisateur.query.filter_by(mail=user_data.get("mail").strip().lower()).scalar() is not None:
+        if Utilisateur.query.filter_by(mail=user_data.get("mail")).scalar() is not None:
             return jsonify({"error": "Email already in use"}), 409
-        if Role.query.filter_by(name_role=user_data.get("name_role").strip().lower()).scalar() is None:
+
+        role = Role.query.filter_by(name_role=user_data.get("name_role")).scalar()
+        if role is None:
             return jsonify({"error": "Role does not exist"}), 203
 
-        user = Utilisateur(mail=user_data.get("mail").strip().lower(),
-                           hashed_password=hpw(user_data.get("password")),
-                           phone_number=user_data.get("phone_number").strip().lower(),
-                           id_role=Role.query.get(name_role=user_data.get("name_role")).first().role_id,
-                           is_complete=False)
 
-        db.session.add(user)
-        db.session.commit()
-        db.session.close()
+        try:
+            user = Utilisateur(mail=user_data.get("mail"),
+                               hashed_password=hpw(user_data.get("password")),
+                               phone_number=user_data.get("phone_number"),
+                               id_role=role.id_role,
+                               is_complete=False)
+            db.session.add(user)
 
+            identity = {"id_utilisateur": user.id_utilisateur}
+            claims = {"name_role": user.role, "is_complete": user.is_complete}
+            db.session.commit()
+            db.session.close()
+        except Exception as ex:
+            db.session.rollback()
+            return jsonify({"error": {"message": str(ex)}}), 400
         # Loading the token
-        identity = {"id_utilisateur": user.utilisateur_id}
-        claims = {"name_role": user.role, "is_complete": user.is_complete}
-        return jsonify({"user_data": tokenize(identity=identity, claims=claims)}), 201
-
+        return jsonify({"token": tokenize(identity=identity, claims=claims)}), 201
     except Exception as ex:
         db.session.rollback()
-        db.session.close()
         return jsonify({"error": {"message": str(ex)}}), 400
 
