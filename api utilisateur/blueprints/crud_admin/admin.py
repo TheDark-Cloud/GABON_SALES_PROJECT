@@ -20,8 +20,9 @@ def admin_required(fn):
 
 @admin_bp.route("/vendeurs/block/<int:vendeur_id>", methods=["PUT"])
 @admin_required
-def block_vendeur(vendeur_id):
-    vendeur = Vendeur.query.get(vendeur_id)
+def block_vendeur(id_vendeur):
+
+    vendeur = Vendeur.query.get(id_vendeur)
     if not vendeur:
         return jsonify({"error": {"message": "Vendeur introuvable"}}), 404
     vendeur.statut = False
@@ -29,9 +30,9 @@ def block_vendeur(vendeur_id):
         db.session.commit()
     except SQLAlchemyError:
         db.session.rollback()
-        current_app.logger.exception("Failed to block vendeur %s", vendeur_id)
+        current_app.logger.exception("Failed to block vendeur %s", id_vendeur)
         return jsonify({"error": {"message": "Internal server error"}}), 500
-    return jsonify({"data": {"message": "Vendeur bloqué", "id": vendeur_id}}), 200
+    return jsonify({"data": {"message": "Vendeur bloqué", "id": id_vendeur}}), 200
 
 @admin_bp.route("/users", methods=["GET"])
 @jwt_required()
