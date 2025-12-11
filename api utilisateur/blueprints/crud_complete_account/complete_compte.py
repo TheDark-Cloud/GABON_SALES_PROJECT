@@ -26,6 +26,11 @@ def create_compte():
         payload = request.get_json(silent=True) or {}
         user = Utilisateur.query.filter_by(id_utilisateur=identity).first()
 
+        # logs
+        print(f'payload: {payload}')
+        print(f'identity: {identity}')
+        print(f'claims: {claims}')
+
         if not user:
             return jsonify({"error": "User not found"}), 404
 

@@ -20,7 +20,7 @@ def create_user():
 
     try:
         user_data = request.get_json(silent=True) or {} # getting user data
-        required_fields = ["mail", "password", "phone_number", "name_role"] # what should be in the user data
+        required_fields = ["mail", "password", "name_role"] # what should be in the user data
         payload_validator(payload=user_data, required_fields=required_fields) # validating fields
 
         # password check
@@ -29,9 +29,6 @@ def create_user():
         # Mail check
         if not is_valid_email_format(user_data.get("mail")):
             return jsonify({"error": "Invalid email format"}), 400
-        # Phone check
-        if not (isinstance(user_data.get('phone_number'), str) and len(user_data.get('phone_number')) == 9):
-            return jsonify({"error": "Invalid phone number format"}), 400
 
         if Utilisateur.query.filter_by(mail=user_data.get("mail")).scalar() is not None:
             return jsonify({"error": "Email already in use"}), 409
@@ -44,7 +41,6 @@ def create_user():
         try:
             user = Utilisateur(mail=user_data.get("mail"),
                                hashed_password=hpw(user_data.get("password")),
-                               phone_number=user_data.get("phone_number"),
                                id_role=role.id_role,
                                is_complete=False)
             db.session.add(user)

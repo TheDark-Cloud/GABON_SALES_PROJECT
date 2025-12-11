@@ -33,11 +33,11 @@ def login():
         # Detect vendeur or client
         vendeur = Vendeur.query.filter_by(id_utilisateur=user.id_utilisateur).first()
         client = Client.query.filter_by(id_utilisateur=user.id_utilisateur).first()
-        boutique = Boutique.query.filter_by(id_vendeur=vendeur.id_vendeur).first()
 
         if vendeur:
             claims["name_role"] = "vendeur"
             claims["id_vendeur"] = vendeur.id_vendeur
+            boutique = Boutique.query.filter_by(id_vendeur=vendeur.id_vendeur).first()
             if boutique:
                 claims["id_boutique"] = boutique.id_boutique
 

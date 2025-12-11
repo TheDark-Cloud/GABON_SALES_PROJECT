@@ -14,17 +14,15 @@ class Utilisateur(db.Model):
     is_complete = db.Column(db.Boolean())
     id_role = db.Column(db.Integer, db.ForeignKey('role.id_role'), nullable=False)
     created_at = db.Column(db.DateTime, default=_now_utc, index=True)
-    phone_number = db.Column(db.String(15), nullable=False)
 
     role = db.relationship('Role', back_populates='utilisateur', lazy='joined')
     administrateur = db.relationship('Administrateur', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
     vendeur = db.relationship('Vendeur', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
     client = db.relationship('Client', back_populates='utilisateur', uselist=False, cascade="all, delete-orphan")
 
-    def __init__(self, mail, hashed_password, phone_number, id_role, is_complete):
+    def __init__(self, mail, hashed_password, id_role, is_complete):
         self.mail = mail
         self.hashed_password = hashed_password
-        self.phone_number = "+241" + phone_number
         self.id_role = id_role
         self.is_complete = False if None else is_complete
 
