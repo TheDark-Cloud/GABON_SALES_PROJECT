@@ -39,7 +39,8 @@ class Administrateur(db.Model):
     __tablename__ = 'administrateur'
     id_admin = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur', ondelete='CASCADE'), nullable=False)
-    name = db.Column(db.String(200), nullable=False)
+    nom = db.Column(db.String(200), nullable=False)
+    prenom = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=_now_utc, index=True)
     statut = db.Column(db.Boolean, default=True)
 
@@ -70,9 +71,9 @@ class Vendeur(db.Model):
 
     def __init__(self, nom, prenom, numero, identite, id_utilisateur):
         self.nom = nom.strip()
-        self.prenom = (prenom or "").strip()
+        self.prenom = prenom.strip()
         self.numero = str(numero)
-        self.identite = (identite or "").strip()
+        self.identite = identite.strip()
         self.id_utilisateur = id_utilisateur
 
     def to_dict(self):
