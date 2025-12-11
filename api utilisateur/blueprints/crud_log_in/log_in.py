@@ -1,35 +1,32 @@
-from flask import Blueprint, request, jsonify, current_app
-from flask_jwt_extended import create_access_token, create_refresh_token
-from sqlalchemy.exc import SQLAlchemyError
-from model_db import Utilisateur
-from extension import db
+from flask import Blueprint, request, jsonify
+from setting.tokenize import tokenize
+from setting.config import is_valid_email_format, is_valid_password_format
+from werkzeug.security import check_password_hash
+from model_db import db, Utilisateur
+from setting.auth import payload_validator
 
-log_in_bp = Blueprint("auth", __name__, url_prefix="/auth")
-
-def _build_identity(user):
-    return {"id_utilisateur": user.id_utilisateur, "id_role": user.id_role,
-            "is_admin": getattr(user.role, "nom_role", "").lower() in ("admin", "administrateur")}
+log_in_bp = Blueprint("auth", __name__)
 
 @log_in_bp.route("/login", methods=["POST"])
-def account_login():
+def login():
     data = request.get_json(silent=True) or {}
-    email = (data.get("email") or "").strip().lower()
-    password = data.get("password") or ""
+    required_fields = ['mail', 'password']
+    payload_validator(payload=data, required_fields=required_fields)
 
-    if not email or not password:
-        return jsonify({"error": {"message": "Email and password required"}}), 400
     try:
-        user = Utilisateur.query.filter_by(email=email).first()
-    except SQLAlchemyError:
-        current_app.logger.exception("DB error during login")
-        return jsonify({"error": {"message": "Internal server error"}}), 500
+        if not is_valid_email_format(data.get('mail')):
+            return jsonify({"error": "Invalid email format"}), 400
+        if not is_valid_password_format(data.get('password')):
+            return jsonify({"error": "Invalid password format"}), 400
 
-    if not user or not user.verify_password(password):
-        current_app.logger.info("Failed login attempt for email %s", email)
-        return jsonify({"error": {"message": "Invalid credentials"}}), 401
+        user = Utilisateur.query.filter_by(mail=data.get('mail')).first()
+        if not user or not check_password_hash(user.hashed_password, data.get('password')):
+            return jsonify({"error": "Invalid credentials"}), 401
 
-    identity = _build_identity(user)
-    access_token = create_access_token(identity=identity)
-    refresh_token = create_refresh_token(identity=identity)
+        login_token = tokenize(identity={"id_utilisateur": user.id_utilisateur},
+                               claims={"role": user.role.name_role, "is_complete": user.is_complete})
+        db.session.close()
+        return jsonify({"token": login_token}), 200
 
-    return jsonify({"data": {"access_token": access_token, "refresh_token": refresh_token, "user": user.to_dict()}}), 200
+    except Exception as ex:
+        return jsonify({"error": {"message": str(ex)}}), 400

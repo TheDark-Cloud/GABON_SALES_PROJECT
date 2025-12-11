@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt
 from functools import wraps
 from sqlalchemy.exc import SQLAlchemyError
 from extension import db
-from model_db import Administrateur, Utilisateur, Vendeur
+from model_db import Administrateur, Utilisateur, Vendor
 
 ADMIN_CLAIM_KEY = "is_admin"
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -21,7 +21,7 @@ def admin_required(fn):
 @jwt_required()
 @admin_required
 def block_vendeur(vendeur_id):
-    vendeur = Vendeur.query.get(vendeur_id)
+    vendeur = Vendor.query.get(vendeur_id)
     if not vendeur:
         return jsonify({"error": {"message": "Vendeur introuvable"}}), 404
     vendeur.statut = False
@@ -44,5 +44,5 @@ def list_users():
 @jwt_required()
 @admin_required
 def list_vendeurs():
-    vendeurs = Vendeur.query.all()
+    vendeurs = Vendor.query.all()
     return jsonify({"data": [v.to_dict() for v in vendeurs]}), 200

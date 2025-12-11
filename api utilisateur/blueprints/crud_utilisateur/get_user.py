@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint
 from flask_jwt_extended import get_jwt_identity, jwt_required, get_jwt
 from model_db import Utilisateur
-from setting.auth  import payload_validator, authenticate_validator
+from setting.auth  import authenticate_validator
 
 get_user_bp = Blueprint("get_user", __name__)
 

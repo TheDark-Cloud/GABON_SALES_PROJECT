@@ -1,11 +1,11 @@
 import os
 from flask import Flask
+from model_db import Role
 from setting.config import db
 from blueprints.crud_utilisateur.create_user import create_user_bp
 from blueprints.crud_utilisateur.delete_user import delete_user_bp
 from blueprints.crud_utilisateur.get_user import get_user_bp
 from blueprints.crud_utilisateur.update_user import update_user_bp
-
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -42,6 +42,9 @@ if __name__ == '__main__':
     try:
         with app.app_context():
             db.create_all()
+            db.session.add(Role(name_role="admin"))
+            db.session.add(Role(name_role="vendeur"))
+            db.session.add(Role(name_role="client"))
             db.session.commit()
     except Exception as e:
         print(e)

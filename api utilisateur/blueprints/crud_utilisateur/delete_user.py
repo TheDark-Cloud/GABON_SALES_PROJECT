@@ -15,7 +15,7 @@ def delete_user():
         claims = get_jwt()
         authenticate_validator(identity, claims)
 
-        user = Utilisateur.query.get_or_404(id_utilisateur=identity["id_utilisateur"]).delete()
+        user = Utilisateur.query.filter(id_utilisateur= identity["id_utilisateur"]).first()
         if not user:
             return jsonify({"error": "User not found."}), 404
 

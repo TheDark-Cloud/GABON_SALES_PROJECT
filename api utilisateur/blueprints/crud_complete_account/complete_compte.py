@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from setting.config import db
 from setting.auth import authenticate_validator, payload_validator
-from model_db import Vendeur, Client, Utilisateur
+from model_db import Vendor, Client, Utilisateur
 
 complete_compte_bp = Blueprint("complete_compte", __name__)
 
@@ -49,7 +49,7 @@ def create_compte(_token_payload=None):
 
         # Create Vendeur instance and add to session
         try:
-            new_vendeur = Vendeur(
+            new_vendeur = Vendor(
                 nom=data["nom"].strip(),
                 prenom=data["prenom"].strip(),
                 numero=data["numero"].strip(),
