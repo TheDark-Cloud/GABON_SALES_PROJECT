@@ -1,7 +1,5 @@
 import os
 from flask import Flask
-
-from blueprints.crud_shop.add_shop import add_shop_bp
 from model_db import Role
 from setting.config import db
 
@@ -11,6 +9,9 @@ from blueprints.crud_utilisateur.get_user import get_user_bp
 from blueprints.crud_utilisateur.update_user import update_user_bp
 
 from blueprints.crud_complete_account.complete_compte import complete_compte_bp
+from blueprints.crud_log_in.log_in import log_in_bp
+
+from blueprints.crud_shop.add_shop import add_shop_bp
 
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -35,7 +36,7 @@ def create_app():
     jwt = JWTManager(my_app)
     migrate.init_app(my_app, db)
 
-    # route user
+    # routes user
     my_app.register_blueprint(create_user_bp)
     my_app.register_blueprint(delete_user_bp)
     my_app.register_blueprint(get_user_bp)
@@ -44,9 +45,11 @@ def create_app():
     # Complete compte
     my_app.register_blueprint(complete_compte_bp)
 
-    # Shop
+    # routes Shop
     my_app.register_blueprint(add_shop_bp)
 
+    # login
+    my_app.register_blueprint(log_in_bp)
 
     return my_app
 
@@ -59,6 +62,8 @@ if __name__ == '__main__':
             # db.session.add(Role(name_role="vendeur"))
             # db.session.add(Role(name_role="client"))
             db.session.commit()
+            print("Database created successfully")
+            print(app.url_map)
     except Exception as e:
         print(e)
 

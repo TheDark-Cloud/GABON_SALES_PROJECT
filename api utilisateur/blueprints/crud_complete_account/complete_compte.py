@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from setting.config import db, is_valide_phone_format, validate_parameters
 from setting.auth import authenticate_validator, payload_validator
 from model_db import Vendeur, Client, Utilisateur
+from setting.tokenize import tokenize
 
 complete_compte_bp = Blueprint("complete_compte", __name__)
 @complete_compte_bp.route("/user/account/vendeur_client/complete", methods=["POST"])
@@ -44,17 +45,20 @@ def create_compte():
             if Vendeur.query.filter_by(id_utilisateur=identity).first() is not None:
                 return jsonify({"error": "Vendeur already exists"}), 409
 
-            admin = Vendeur(
+            vendeur = Vendeur(
                 id_utilisateur=user.id_utilisateur,
                 nom=payload.get("nom"),
                 prenom=payload.get("prenom"),
                 numero=payload.get("numero"),
                 identite=payload.get("identite")
             )
-            db.session.add(admin)
+            db.session.add(vendeur)
             user.is_complete = True
             db.session.commit()
-            return jsonify({"message": "Account successfully completed"}), 200
+
+            new_claims = {"name_role": role, "id_vendeur":vendeur.id_vendeur}
+            refresh_token = tokenize(identity=str(identity), claims=new_claims)
+            return jsonify({"message": "Account successfully completed", "token": refresh_token}), 200
 
         # --- CLIENT ---
         elif role == "client":
@@ -73,12 +77,15 @@ def create_compte():
                 id_utilisateur=user.id_utilisateur,
                 nom=payload.get("nom"),
                 prenom=payload.get("prenom"),
-                numero=payload.get("numero")
-            )
+                numero=payload.get("numero"))
+
             db.session.add(client)
             user.is_complete = True
             db.session.commit()
-            return jsonify({"message": "Account successfully completed"}), 200
+
+            new_claims = {"is_complete": user.is_complete,"name_role": role, "id_client": client.id_client}
+            refreshed_token = tokenize(identity=str(identity), claims=new_claims)
+            return jsonify({"message": "Account successfully completed", "refreshed_token": refreshed_token}), 200
 
         # --- UNKNOWN ROLE ---
         else:

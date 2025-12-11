@@ -6,9 +6,10 @@ from setting.auth import authenticate_validator, payload_validator
 
 add_shop_bp = Blueprint('add_shop', __name__)
 
-@add_shop_bp.route('/add_shop', methods=['POST'])
+@add_shop_bp.route('/vendeur/add_shop', methods=['POST'])
 @jwt_required()
 def add_shop():
+    print("Adding shop")
     """
     Add a shop in the database
     expected data
@@ -26,15 +27,22 @@ def add_shop():
     required_fields = ['name', 'address', 'domaine', 'description']
 
     payload_validator(payload, required_fields)
-    user = Utilisateur.query.get_or_404(identity)
-    vendeur = Vendeur.query.get_or_404(claims.get('id_vendeur'))
+    user = Utilisateur.query.filter_by(id_utilisateur=identity).first()
+    vendeur = Vendeur.query.filter_by(id_vendeur=claims.get('id_vendeur')).first()
+    boutique = Boutique.query.filter_by(id_vendeur=claims.get('id_vendeur')).first()
+    if user is None:
+        return jsonify({"error": "user not found"}), 404
+    if boutique:
+        return jsonify({"error": "A shop is already registered to this vendor"}), 409
+    if claims.get('id_vendeur') is None:
+        return jsonify({"error": "Unauthorized access"}), 403
 
-    if claims.get('role') != 'vendeur':
+    if claims.get('name_role') != 'vendeur':
         return jsonify({"error": "Unauthorized role"}), 403
     try:
         shop = Boutique(id_vendeur=vendeur.id_vendeur,
                         name=payload.get('name'),
-                        email=user.email,
+                        email=user.mail,
                         address=payload.get('address'),
                         domaine=payload.get('domaine'),
                         description=payload.get('description'))
