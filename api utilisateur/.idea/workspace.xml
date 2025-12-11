@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="&#10;...">
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-    </list>
+    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="&#10;..." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -341,7 +339,7 @@
       <workItem from="1764785746830" duration="34953000" />
       <workItem from="1765397218350" duration="366000" />
       <workItem from="1765397693137" duration="19651000" />
-      <workItem from="1765421237698" duration="42151000" />
+      <workItem from="1765421237698" duration="42501000" />
     </task>
     <task id="LOCAL-00001" summary="The the following routes works&#10;&#10;-utilisateur.py&#10;-role.py&#10;&#10;what is missing is:&#10;-complete_compte.py&#10;-login.py&#10;-admin.py">
       <option name="closed" value="true" />
@@ -527,7 +525,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765463260316</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="&#10;...">
+      <option name="closed" value="true" />
+      <created>1765464748257</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1765464748257</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,7 +558,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="&#10;..." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1765461514535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1765464832594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$.coverage" NAME=" Coverage Results" MODIFIED="1760421235854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$conftest.coverage" NAME="conftest Coverage Results" MODIFIED="1760338125024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/api_utilisateur$delete_user.coverage" NAME="delete_user Coverage Results" MODIFIED="1763193105328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blueprints/crud_utilisateur" />

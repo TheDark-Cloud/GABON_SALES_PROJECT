@@ -24,8 +24,8 @@ def add_shop():
 
     payload = request.get_json()
     required_fields = ['name', 'address', 'domaine', 'description']
-
     payload_validator(payload, required_fields)
+
     user = Utilisateur.query.filter_by(id_utilisateur=identity).first()
     vendeur = Vendeur.query.filter_by(id_vendeur=claims.get('id_vendeur')).first()
     boutique = Boutique.query.filter_by(id_vendeur=claims.get('id_vendeur')).first()
