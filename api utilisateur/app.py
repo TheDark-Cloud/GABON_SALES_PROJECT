@@ -10,7 +10,11 @@ from blueprints.crud_utilisateur.update_user import update_user_bp
 
 from blueprints.crud_complete_account.complete_compte import complete_compte_bp
 from blueprints.crud_log_in.log_in import log_in_bp
+
 from blueprints.crud_product.add_product import add_product_bp
+from blueprints.crud_product.delete_product import delete_product_bp
+from blueprints.crud_product.update_product import update_product_bp
+from blueprints.crud_product.get_product import get_product_bp
 
 from blueprints.crud_shop.add_shop import add_shop_bp
 
@@ -49,7 +53,9 @@ def create_app():
 
     # routes Shop
     my_app.register_blueprint(add_shop_bp)
+    # routes product
     my_app.register_blueprint(add_product_bp)
+    my_app.register_blueprint(get_product_bp)
 
     # login
     my_app.register_blueprint(log_in_bp)

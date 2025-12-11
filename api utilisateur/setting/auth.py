@@ -17,7 +17,7 @@ def authenticate_validator(identity: int, claims: Any = None) -> tuple[Response,
     return None
 
 
-def payload_validator(payload: Any, required_fields: Optional[list] = None):
+def payload_validator(payload: Any = None, required_fields: Optional[list] = None):
     if payload is None:
         return jsonify({"error": "Empty data provided"}), 404
     if not isinstance(payload, dict):
