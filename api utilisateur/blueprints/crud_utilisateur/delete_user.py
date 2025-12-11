@@ -11,15 +11,15 @@ delete_user_bp = Blueprint("delete_user", __name__)
 def delete_user():
 
     try:
-        identity = get_jwt_identity()
+        identity = int(get_jwt_identity())
         claims = get_jwt()
         authenticate_validator(identity, claims)
 
-        user = Utilisateur.query.filter(id_utilisateur= identity["id_utilisateur"]).first()
+        user = Utilisateur.query.filter(id_utilisateur= identity).first()
         if not user:
             return jsonify({"error": "User not found."}), 404
 
-        db.session.delete(user)
+        user.status = False
         db.session.commit()
         return jsonify({"message": "User deleted successfully."}), 200
     except Exception as ex:

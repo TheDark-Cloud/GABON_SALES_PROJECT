@@ -12,7 +12,7 @@ def update_user():
     """ Updating the user"""
 
     try:
-        identity = get_jwt_identity()
+        identity = int(get_jwt_identity())
         claims = get_jwt()
         authenticate_validator(identity=identity, claims=claims)
 
@@ -20,7 +20,10 @@ def update_user():
         required_fields = ["mail", "password", "phone_number", "name_role"]
         payload_validator(payload=new_data, required_fields=required_fields)
 
-        user = Utilisateur.query.filter_by(identity['id_utilisateur']).role== claims['name_role']
+        user = Utilisateur.query.filter_by(identity).first()
+        if user.role.name_role != claims['name_role'].lower():
+            return jsonify({"error": "Unauthorized access"}), 403
+
         if not user:
             return jsonify({"message": "User not found"}), 404
 

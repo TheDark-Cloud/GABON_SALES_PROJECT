@@ -22,7 +22,7 @@ def is_valide_phone_format(phone_number):
     """Check if the password is valid."""
     if not isinstance(phone_number, str):
         return False
-    if phone_number != 9:
+    if len(phone_number) < 9:
         return False
     return True
 
@@ -32,13 +32,16 @@ def is_valid_email_format(email: str) -> Response | bool:
         return jsonify({"error": "The mail should not be empty"})
     return bool(SIMPLE_RE.match(email))
 
-def validate_parameters(mail, password, phone_number):
-    if not is_valide_phone_format(phone_number):
+def validate_parameters(mail: str = None, password: str = None, phone_number: str = None, indentite:str = None):
+    if is_valide_phone_format(phone_number) is not None:
         return jsonify({"message": "Invalid phone number"}), 400
 
-    if not is_valid_email_format(mail):
+    if is_valid_email_format(mail) is not None:
         return jsonify({"message": "Invalid email"}), 400
 
-    if not is_valid_password_format(password):
+    if not isinstance(indentite, str) or indentite is None:
+        return jsonify({"message": "Invalid indentite"}), 400
+
+    if is_valid_password_format(password) is not None:
         return jsonify({"message": "Invalid password"}), 400
-    return True
+    return None

@@ -1,12 +1,17 @@
 import os
 from flask import Flask
+
+from blueprints.crud_shop.add_shop import add_shop_bp
 from model_db import Role
 from setting.config import db
+
 from blueprints.crud_utilisateur.create_user import create_user_bp
 from blueprints.crud_utilisateur.delete_user import delete_user_bp
 from blueprints.crud_utilisateur.get_user import get_user_bp
 from blueprints.crud_utilisateur.update_user import update_user_bp
+
 from blueprints.crud_complete_account.complete_compte import complete_compte_bp
+
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -38,6 +43,9 @@ def create_app():
 
     # Complete compte
     my_app.register_blueprint(complete_compte_bp)
+
+    # Shop
+    my_app.register_blueprint(add_shop_bp)
 
 
     return my_app

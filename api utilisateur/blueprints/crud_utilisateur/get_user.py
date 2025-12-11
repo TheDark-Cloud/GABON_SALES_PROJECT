@@ -9,14 +9,14 @@ get_user_bp = Blueprint("get_user", __name__)
 @jwt_required()
 def get_user():
     try:
-        identity = get_jwt_identity()
+        identity = int(get_jwt_identity())
         claims = get_jwt()
         authenticate_validator(identity= identity, claims= claims)
 
-        user = Utilisateur.query.filter_by(id_utilisateur=identity['id_utilisateur'])
+        user = Utilisateur.query.filter_by(id_utilisateur=identity)
         if not user:
             return jsonify({"error": "User not found"}), 401
-        if user.role != "admin":
+        if claims.get('name_role') != "admin":
             return jsonify({"error": "Unauthorized access"}), 401
         users = Utilisateur.query.all()
         return jsonify({"users": [user.to_dict() for user in users]}), 200

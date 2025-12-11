@@ -32,8 +32,7 @@ class Utilisateur(db.Model):
         return {
             'id_utilisateur': self.id_utilisateur,
             'mail': self.mail,
-            # 'created_at': self.created_at.isoformat() if self.created_at else None
-        }
+            "id_role": self.id_role}
 
 class Administrateur(db.Model):
     __tablename__ = 'administrateur'
@@ -52,12 +51,13 @@ class Administrateur(db.Model):
             self.id_utilisateur = id_utilisateur
 
     def to_dict(self):
-        return {'id': self.id, 'nom': self.name, 'id_utilisateur': self.id_utilisateur}
+        return {'id_admin': self.id_admin,
+                'nom': self.name, 'prenom': self.prenom}
 
 class Vendeur(db.Model):
     __tablename__ = 'vendeur'
     id_vendeur = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur', ondelete='CASCADE'), nullable=False)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur', ondelete='CASCADE'), nullable=False, unique=True)
     nom = db.Column(db.String(200), nullable=False)
     prenom = db.Column(db.String(200), nullable=False)
     numero = db.Column(db.String(100), unique=True, nullable=False)
@@ -72,12 +72,12 @@ class Vendeur(db.Model):
     def __init__(self, nom, prenom, numero, identite, id_utilisateur):
         self.nom = nom.strip()
         self.prenom = prenom.strip()
-        self.numero = str(numero)
+        self.numero = "+241"+str(numero)
         self.identite = identite.strip()
         self.id_utilisateur = id_utilisateur
 
     def to_dict(self):
-        return {"id":"vendeur_id",'id_utilisateur': self.id_utilisateur,
+        return {"id":self.id_vendeur,
                 'nom': self.nom, 'prenom': self.prenom,
                 'numero': self.numero, 'identite': self.identite}
 
@@ -94,9 +94,9 @@ class Client(db.Model):
     utilisateur = db.relationship('Utilisateur', back_populates='client', uselist=False)
 
     def __init__(self, nom, prenom, numero, id_utilisateur):
-        self.nom = nom.strip().ca
+        self.nom = nom.strip()
         self.prenom = prenom.strip()
-        self.numero = str(numero)
+        self.numero = "+241"+str(numero)
         self.id_utilisateur = id_utilisateur
 
     def to_dict(self):
@@ -169,14 +169,21 @@ class Boutique(db.Model):
     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
     name = db.Column(db.String(150), nullable=False, unique=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    address = db.Column(db.Text)
-    domaine = db.Column(db.String(150))
-    description = db.Column(db.Text)
+    address = db.Column(db.Text, nullable=True)
+    domaine = db.Column(db.String(150) ,nullable=True ,unique=True)
+    description = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
 
     # table relation
     vendeur = db.relationship("Vendeur", back_populates="boutique")
 
+    def __init__(self, id_vendeur, name, email, address, domaine, description):
+        self.id_vendeur = id_vendeur
+        self.name = name
+        self.email = email
+        self.address = address
+        self.domaine = domaine
+        self.description = description
     # methode
     def to_dict(self):
         return {

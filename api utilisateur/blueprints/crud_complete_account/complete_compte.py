@@ -1,23 +1,37 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
-from setting.config import db, is_valide_phone_format
+from setting.config import db, is_valide_phone_format, validate_parameters
 from setting.auth import authenticate_validator, payload_validator
 from model_db import Vendeur, Client, Utilisateur
 
 complete_compte_bp = Blueprint("complete_compte", __name__)
-
 @complete_compte_bp.route("/user/account/vendeur_client/complete", methods=["POST"])
 @jwt_required()
-def create_compte(_token_payload=None):
+def create_compte():
     try:
-        identity = get_jwt_identity()
+        # --- Validate identity ---
+        raw_identity = get_jwt_identity()
+        if raw_identity is None:
+            return jsonify({"error": "Invalid token: missing identity"}), 401
+
+        try:
+            identity = int(raw_identity)
+        except ValueError:
+            return jsonify({"error": "Invalid token: identity must be an integer"}), 401
+
         claims = get_jwt()
         authenticate_validator(identity, claims)
 
         payload = request.get_json(silent=True) or {}
-        user = Utilisateur.query.get_or_404(identity["id_utilisateur"])
+        user = Utilisateur.query.filter_by(id_utilisateur=identity).first()
 
-        if claims.get('name_role') == 'vendeur':
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        role = claims.get("name_role")
+
+        # --- VENDEUR ---
+        if role == "vendeur":
             required_fields = ["nom", "prenom", "numero", "identite"]
             payload_validator(payload, required_fields)
 
@@ -27,19 +41,23 @@ def create_compte(_token_payload=None):
             if user.is_complete:
                 return jsonify({"message": "Account already completed"}), 400
 
+            if Vendeur.query.filter_by(id_utilisateur=identity).first() is not None:
+                return jsonify({"error": "Vendeur already exists"}), 409
+
             admin = Vendeur(
                 id_utilisateur=user.id_utilisateur,
                 nom=payload.get("nom"),
-                prenom=payload.get('prenom'),
-                numero=payload.get('numero'),
-                identite=payload.get('identite')
+                prenom=payload.get("prenom"),
+                numero=payload.get("numero"),
+                identite=payload.get("identite")
             )
             db.session.add(admin)
             user.is_complete = True
             db.session.commit()
             return jsonify({"message": "Account successfully completed"}), 200
 
-        if claims.get('name_role') == 'client':
+        # --- CLIENT ---
+        elif role == "client":
             required_fields = ["nom", "prenom", "numero"]
             payload_validator(payload, required_fields)
 
@@ -48,17 +66,25 @@ def create_compte(_token_payload=None):
 
             if user.is_complete:
                 return jsonify({"message": "Account already completed"}), 400
+            if Client.query.filter_by(id_utilisateur=identity).first() is not None:
+                return jsonify({"error": "Client already exists"}), 409
 
             client = Client(
                 id_utilisateur=user.id_utilisateur,
                 nom=payload.get("nom"),
-                prenom=payload.get('prenom'),
-                numero=payload.get('numero')
+                prenom=payload.get("prenom"),
+                numero=payload.get("numero")
             )
             db.session.add(client)
             user.is_complete = True
             db.session.commit()
             return jsonify({"message": "Account successfully completed"}), 200
 
+        # --- UNKNOWN ROLE ---
+        else:
+            return jsonify({"error": "Invalid role"}), 403
+
     except Exception as ex:
+        db.session.rollback()
+        db.session.close()
         return jsonify({"error": str(ex)}), 500
