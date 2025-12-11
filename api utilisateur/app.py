@@ -22,7 +22,8 @@ def create_app():
     my_app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
     my_app.config["JWT_ALGORITHM"] = os.environ.get('JWT_ALGORITHM')
     my_app.config["JWT_ALGORITHM_HPW"] = os.environ.get('JWT_ALGORITHM_HPW')
-    my_app.config["JWT_HEADER_TYPE"] = os.environ.get('JWT_HEADER_TYPE')
+    my_app.config['JWT_EXP_DELTA_SECONDS'] = int(os.environ.get('JWT_EXP_DELTA_SECONDS'))
+
 
     db.init_app(my_app)
     jwt = JWTManager(my_app)
