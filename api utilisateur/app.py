@@ -6,6 +6,7 @@ from blueprints.crud_utilisateur.create_user import create_user_bp
 from blueprints.crud_utilisateur.delete_user import delete_user_bp
 from blueprints.crud_utilisateur.get_user import get_user_bp
 from blueprints.crud_utilisateur.update_user import update_user_bp
+from blueprints.crud_complete_account.complete_compte import complete_compte_bp
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -35,6 +36,9 @@ def create_app():
     my_app.register_blueprint(get_user_bp)
     my_app.register_blueprint(update_user_bp)
 
+    # Complete compte
+    my_app.register_blueprint(complete_compte_bp)
+
 
     return my_app
 
@@ -43,9 +47,9 @@ if __name__ == '__main__':
     try:
         with app.app_context():
             db.create_all()
-            db.session.add(Role(name_role="admin"))
-            db.session.add(Role(name_role="vendeur"))
-            db.session.add(Role(name_role="client"))
+            # db.session.add(Role(name_role="admin"))
+            # db.session.add(Role(name_role="vendeur"))
+            # db.session.add(Role(name_role="client"))
             db.session.commit()
     except Exception as e:
         print(e)

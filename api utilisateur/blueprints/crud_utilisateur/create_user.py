@@ -51,16 +51,16 @@ def create_user():
 
             identity = {"id_utilisateur": user.id_utilisateur}
             claims = {"name_role": user.role, "is_complete": user.is_complete}
-
-            db.session.commit()
-            db.session.close()
         except Exception as ex:
             db.session.rollback()
             return jsonify({"error": {"message": str(ex)}}), 400
         # Loading the token
         creation_token = tokenize(identity=identity, claims=claims)
+        db.session.commit()
+        db.session.close()
         return jsonify({"token": creation_token}), 201
     except Exception as ex:
         db.session.rollback()
+        db.session.close()
         return jsonify({"error": {"message": str(ex)}}), 400
 

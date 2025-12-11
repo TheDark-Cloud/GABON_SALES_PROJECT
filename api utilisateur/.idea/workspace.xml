@@ -7,7 +7,9 @@
     <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="&#10;...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blueprints/crud_admin/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/blueprints/crud_admin/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blueprints/crud_complete_account/complete_compte.py" beforeDir="false" afterPath="$PROJECT_DIR$/blueprints/crud_complete_account/complete_compte.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blueprints/crud_utilisateur/create_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/blueprints/crud_utilisateur/create_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setting/tokenize.py" beforeDir="false" afterPath="$PROJECT_DIR$/setting/tokenize.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,50 +64,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Flask server.Flask.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields.executor": "Run",
-    "Python tests.Python tests for tests.test_utilisateur.test_create_user_success.executor": "Run",
-    "Python tests.Python tests for tests.test_utilisateur.test_get_user_authorization.executor": "Run",
-    "Python tests.Python tests for tests.test_utilisateur.test_get_user_requires_token_and_authorization.executor": "Run",
-    "Python tests.Python tests for tests.test_utilisateur.test_update_and_delete_flow.executor": "Run",
-    "Python tests.Python tests for tests.test_utilisateur.test_update_user_email_and_password.executor": "Run",
-    "Python tests.Python tests in test_admin.py.executor": "Run",
-    "Python tests.Python tests in test_auth_and_accounts.py.executor": "Run",
-    "Python tests.Python tests in test_users.py.executor": "Run",
-    "Python tests.Python tests in test_utilisateur.py.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.conftest.executor": "Run",
-    "Python.create_user.executor": "Run",
-    "Python.delete_user.executor": "Run",
-    "Python.get_user.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/Tony/Desktop/GABON SALES PROJECT/api utilisateur/blueprints",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Flask server.Flask.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_create_user_missing_fields.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_create_user_success.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_get_user_authorization.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_get_user_requires_token_and_authorization.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_update_and_delete_flow.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for tests.test_utilisateur.test_update_user_email_and_password.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_admin.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_auth_and_accounts.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_users.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_utilisateur.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.conftest.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_user.executor&quot;: &quot;Run&quot;,
+    &quot;Python.delete_user.executor&quot;: &quot;Run&quot;,
+    &quot;Python.get_user.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tony/Desktop/GABON SALES PROJECT/api utilisateur/blueprints&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Tony\Desktop\GABON SALES PROJECT\api utilisateur\blueprints" />
@@ -342,7 +344,8 @@
       <workItem from="1763828630331" duration="935000" />
       <workItem from="1764785746830" duration="34953000" />
       <workItem from="1765397218350" duration="366000" />
-      <workItem from="1765397693137" duration="18818000" />
+      <workItem from="1765397693137" duration="19651000" />
+      <workItem from="1765421237698" duration="4770000" />
     </task>
     <task id="LOCAL-00001" summary="The the following routes works&#10;&#10;-utilisateur.py&#10;-role.py&#10;&#10;what is missing is:&#10;-complete_compte.py&#10;-login.py&#10;-admin.py">
       <option name="closed" value="true" />
@@ -464,7 +467,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765417673284</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="&#10;...">
+      <option name="closed" value="true" />
+      <created>1765419544782</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1765419544782</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -489,7 +500,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="&#10;..." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1765418952226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/api_utilisateur$app.coverage" NAME="app Coverage Results" MODIFIED="1765426504969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$.coverage" NAME=" Coverage Results" MODIFIED="1760421235854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/api_utilisateur$conftest.coverage" NAME="conftest Coverage Results" MODIFIED="1760338125024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/api_utilisateur$delete_user.coverage" NAME="delete_user Coverage Results" MODIFIED="1763193105328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/blueprints/crud_utilisateur" />
