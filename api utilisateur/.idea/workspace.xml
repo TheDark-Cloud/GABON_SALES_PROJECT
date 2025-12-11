@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="&#10;..." />
+    <list default="true" id="229e14ab-6754-435c-9909-82fc00d42357" name="Changes" comment="&#10;...">
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -339,7 +341,7 @@
       <workItem from="1764785746830" duration="34953000" />
       <workItem from="1765397218350" duration="366000" />
       <workItem from="1765397693137" duration="19651000" />
-      <workItem from="1765421237698" duration="40914000" />
+      <workItem from="1765421237698" duration="42151000" />
     </task>
     <task id="LOCAL-00001" summary="The the following routes works&#10;&#10;-utilisateur.py&#10;-role.py&#10;&#10;what is missing is:&#10;-complete_compte.py&#10;-login.py&#10;-admin.py">
       <option name="closed" value="true" />
@@ -517,7 +519,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765462957846</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="&#10;...">
+      <option name="closed" value="true" />
+      <created>1765463260316</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1765463260316</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
