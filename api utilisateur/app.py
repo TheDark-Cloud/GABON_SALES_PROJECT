@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from model_db import Role
+from model_db import Role, Categorie
 from setting.config import db
 
 from blueprints.crud_utilisateur.create_user import create_user_bp
@@ -10,8 +10,10 @@ from blueprints.crud_utilisateur.update_user import update_user_bp
 
 from blueprints.crud_complete_account.complete_compte import complete_compte_bp
 from blueprints.crud_log_in.log_in import log_in_bp
+from blueprints.crud_product.add_product import add_product_bp
 
 from blueprints.crud_shop.add_shop import add_shop_bp
+
 
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -47,6 +49,7 @@ def create_app():
 
     # routes Shop
     my_app.register_blueprint(add_shop_bp)
+    my_app.register_blueprint(add_product_bp)
 
     # login
     my_app.register_blueprint(log_in_bp)
@@ -61,6 +64,16 @@ if __name__ == '__main__':
             # db.session.add(Role(name_role="admin"))
             # db.session.add(Role(name_role="vendeur"))
             # db.session.add(Role(name_role="client"))
+            product_types = [
+                "Electronics",
+                "Fashion & Apparel",
+                "Food & Beverages",
+                "Home & Furniture",
+                "Beauty & Personal Care"
+            ]
+            # for _ in product_types:
+            #     db.session.add(Categorie(categorie_name=_))
+
             db.session.commit()
             print("Database created successfully")
             print(app.url_map)

@@ -9,7 +9,6 @@ add_shop_bp = Blueprint('add_shop', __name__)
 @add_shop_bp.route('/vendeur/add_shop', methods=['POST'])
 @jwt_required()
 def add_shop():
-    print("Adding shop")
     """
     Add a shop in the database
     expected data

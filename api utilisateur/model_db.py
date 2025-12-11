@@ -128,12 +128,12 @@ class Product(db.Model):
     __tablename__ = "product"
     id_product = db.Column(db.Integer, primary_key=True)
     id_vendeur = db.Column(db.Integer, db.ForeignKey('vendeur.id_vendeur', ondelete="CASCADE"), nullable=False)
-    id_category = db.Column(db.Integer, db.ForeignKey('categorie.id_categorie'))
+    id_categorie = db.Column(db.Integer, db.ForeignKey('categorie.id_categorie'))
     product_name = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Numeric(12, 2), nullable=False)
     description = db.Column(db.Text)
     quantity = db.Column(db.Integer, default=0)
-    image = db.Column(db.LargeBinary, nullable=False)
+    image = db.Column(db.LargeBinary, nullable=True)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
@@ -143,8 +143,9 @@ class Product(db.Model):
     categorie = db.relationship("Categorie", back_populates="product")
 
     # methode
-    def __init__(self, id_vendeur, product_name, price, description, quantity, image):
+    def __init__(self, id_vendeur, id_categorie, product_name, price, description, quantity, image):
         self.id_vendeur = id_vendeur
+        self.id_categorie = id_categorie
         self.product_name = product_name
         self.price = price
         self.description = description
@@ -153,7 +154,7 @@ class Product(db.Model):
 
     def to_dict(self):
         return {"id_product": self.id_product,
-                "categorie": self.categorie.nom_categorie,
+                "id_categorie": self.id_categorie,
                 "product_name": self.product_name,
                 "price": self.price,
                 "description": self.description,
@@ -173,6 +174,7 @@ class Boutique(db.Model):
     domaine = db.Column(db.String(150) ,nullable=True ,unique=True)
     description = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+    status = db.Column(db.Boolean, default=True)
 
     # table relation
     vendeur = db.relationship("Vendeur", back_populates="boutique")
@@ -184,6 +186,7 @@ class Boutique(db.Model):
         self.address = address
         self.domaine = domaine
         self.description = description
+        self.status = True
     # methode
     def to_dict(self):
         return {
@@ -199,14 +202,14 @@ class Boutique(db.Model):
 class Categorie(db.Model):
     __tablename__ = "categorie"
     id_categorie = db.Column(db.Integer, primary_key=True)
-    nom_categorie= db.Column(db.String(120), unique=True, nullable=False)
+    categorie_name= db.Column(db.String(120), unique=True, nullable=False)
 
-    def __init__(self, nom_categorie):
-        self.nom_categorie = nom_categorie
+    def __init__(self, categorie_name):
+        self.categorie_name = categorie_name
 
     # relations
     product = db.relationship("Product", back_populates="categorie")
     # methods
     def to_dict(self):
         return {"id_categorie": self.id_categorie,
-                "nom_categorie": self.nom_categorie}
+                "categorie_name": self.categorie_name}

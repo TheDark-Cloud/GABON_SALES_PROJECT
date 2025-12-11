@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from setting.tokenize import tokenize
 from setting.config import is_valid_email_format, is_valid_password_format
 from werkzeug.security import check_password_hash
-from model_db import db, Utilisateur, Vendeur, Client
+from model_db import db, Utilisateur, Vendeur, Client, Boutique
 from setting.auth import payload_validator
 
 log_in_bp = Blueprint("auth", __name__)
@@ -33,17 +33,20 @@ def login():
         # Detect vendeur or client
         vendeur = Vendeur.query.filter_by(id_utilisateur=user.id_utilisateur).first()
         client = Client.query.filter_by(id_utilisateur=user.id_utilisateur).first()
+        boutique = Boutique.query.filter_by(id_vendeur=vendeur.id_vendeur).first()
 
         if vendeur:
             claims["name_role"] = "vendeur"
             claims["id_vendeur"] = vendeur.id_vendeur
+            if boutique:
+                claims["id_boutique"] = boutique.id_boutique
 
         elif client:
             claims["name_role"] = "client"
             claims["id_client"] = client.id_client
 
         # Generate token
-        login_token = tokenize(identity=user.id_utilisateur, claims=claims)
+        login_token = tokenize(identity=str(user.id_utilisateur), claims=claims)
 
         return jsonify({"login_token": login_token}), 200
 
